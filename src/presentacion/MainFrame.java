@@ -9,19 +9,46 @@ import javax.swing.JTabbedPane;
 
 public class MainFrame extends JFrame {
 
-    private final JTabbedPane pestañas;
+ private final JTabbedPane pestañas;
 
     public MainFrame() {
-        setTitle("Sistema de Clínica Veterinaria");
-        setSize(1000, 650);
+
+        setTitle(
+                "Sistema de Clínica Veterinaria"
+        );
+
+        setSize(1200, 750);
+
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        pestañas = new JTabbedPane();
+        setDefaultCloseOperation(
+                JFrame.EXIT_ON_CLOSE
+        );
 
-        pestañas.addTab("Clientes", new PanelClientes());
-        pestañas.addTab("Mascotas", new PanelMascotas());
+        pestañas =
+                new JTabbedPane();
+
+        pestañas.addTab(
+                "Clientes",
+                new PanelClientes()
+        );
+
+        pestañas.addTab(
+                "Mascotas",
+                new PanelMascotas()
+        );
+
+        pestañas.addTab(
+                "Veterinarios",
+                new PanelVeterinarios()
+        );
+
+        pestañas.addTab(
+                "Citas",
+                new PanelCitas()
+        );
 
         add(pestañas);
     }
+    
 }
