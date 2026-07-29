@@ -105,9 +105,7 @@ public class PanelCitas  extends JPanel{
         cargarCitas();
     }
 
-    /**
-     * Inicializa los componentes visuales.
-     */
+
     private void inicializarComponentes() {
 
         setLayout(new BorderLayout(15, 15));
@@ -141,9 +139,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Crea el encabezado del panel.
-     */
+
     private JPanel crearEncabezado() {
 
         JPanel panel =
@@ -200,9 +196,7 @@ public class PanelCitas  extends JPanel{
         return panel;
     }
 
-    /**
-     * Crea el contenido principal.
-     */
+
     private JPanel crearContenidoCentral() {
 
         JPanel panel =
@@ -225,9 +219,7 @@ public class PanelCitas  extends JPanel{
         return panel;
     }
 
-    /**
-     * Crea el formulario de citas.
-     */
+
     private JPanel crearPanelFormulario() {
 
         JPanel panel =
@@ -466,9 +458,7 @@ public class PanelCitas  extends JPanel{
         return panel;
     }
 
-    /**
-     * Crea una etiqueta del formulario.
-     */
+
     private JLabel crearEtiqueta(
             String texto) {
 
@@ -490,9 +480,7 @@ public class PanelCitas  extends JPanel{
         return etiqueta;
     }
 
-    /**
-     * Crea los botones del panel.
-     */
+
     private JPanel crearPanelBotones() {
 
         JPanel panel =
@@ -551,9 +539,7 @@ public class PanelCitas  extends JPanel{
         return panel;
     }
 
-    /**
-     * Configura el estilo general de los botones.
-     */
+
     private void configurarBoton(
             JButton boton) {
 
@@ -578,9 +564,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Crea la tabla de citas.
-     */
+
     private JPanel crearPanelTabla() {
 
         JPanel panel =
@@ -788,9 +772,7 @@ public class PanelCitas  extends JPanel{
                 );
     }
 
-    /**
-     * Registra una cita nueva.
-     */
+
     private void registrarCita() {
 
         try {
@@ -845,9 +827,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Actualiza la cita seleccionada.
-     */
+
     private void actualizarCita() {
 
         if (idCitaSeleccionada <= 0) {
@@ -921,9 +901,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Confirma la cita seleccionada.
-     */
+
     private void confirmarCita() {
 
         cambiarEstadoCita(
@@ -932,9 +910,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Cancela la cita seleccionada.
-     */
+
     private void cancelarCita() {
 
         cambiarEstadoCita(
@@ -943,9 +919,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Completa la cita seleccionada.
-     */
+
     private void completarCita() {
 
         cambiarEstadoCita(
@@ -954,9 +928,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Cambia el estado de la cita seleccionada.
-     */
+
     private void cambiarEstadoCita(
             EstadoCita nuevoEstado,
             String mensajeExito) {
@@ -1029,9 +1001,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Elimina la cita seleccionada.
-     */
+
     private void eliminarCita() {
 
         if (idCitaSeleccionada <= 0) {
@@ -1099,9 +1069,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Crea un objeto Cita con los datos del formulario.
-     */
+
     private Cita obtenerCitaFormulario(
             boolean incluirId) {
 
@@ -1164,18 +1132,14 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Carga las mascotas y veterinarios.
-     */
+
     public final void cargarCombos() {
 
         cargarMascotas();
         cargarVeterinarios();
     }
 
-    /**
-     * Carga los veterinarios desde la capa de negocio.
-     */
+
     private void cargarVeterinarios() {
 
         try {
@@ -1204,12 +1168,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Carga las mascotas registradas.
-     *
-     * Se realiza una consulta sencilla porque el módulo de
-     * mascotas pertenece a otro integrante del proyecto.
-     */
+
     private void cargarMascotas() {
 
         String sql =
@@ -1280,9 +1239,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Carga las citas en la tabla.
-     */
+
     public final void cargarCitas() {
 
         try {
@@ -1328,9 +1285,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Carga en el formulario la cita seleccionada.
-     */
+
     private void seleccionarCita() {
 
         int filaVista =
@@ -1412,9 +1367,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Habilita los botones según el estado actual.
-     */
+
     private void configurarBotonesEstado(
             EstadoCita estado) {
 
@@ -1437,9 +1390,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Busca una cita en la lista cargada.
-     */
+
     private Cita buscarCitaEnLista(
             int idCita) {
 
@@ -1453,9 +1404,7 @@ public class PanelCitas  extends JPanel{
         return null;
     }
 
-    /**
-     * Selecciona una mascota por ID.
-     */
+    
     private void seleccionarMascota(
             int idMascota) {
 
@@ -1474,10 +1423,8 @@ public class PanelCitas  extends JPanel{
             }
         }
     }
-
-    /**
-     * Selecciona un veterinario por ID.
-     */
+    
+    
     private void seleccionarVeterinario(
             int idVeterinario) {
 
@@ -1497,9 +1444,7 @@ public class PanelCitas  extends JPanel{
         }
     }
 
-    /**
-     * Limpia el formulario.
-     */
+
     private void limpiarFormulario() {
 
         idCitaSeleccionada = 0;
@@ -1536,9 +1481,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Comprueba el error de horario duplicado de MySQL.
-     */
+
     private boolean esHorarioDuplicado(
             SQLException ex) {
 
@@ -1557,9 +1500,7 @@ public class PanelCitas  extends JPanel{
                         );
     }
 
-    /**
-     * Muestra una advertencia.
-     */
+
     private void mostrarAdvertencia(
             String mensaje) {
 
@@ -1576,9 +1517,7 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-    /**
-     * Muestra un error de base de datos.
-     */
+
     private void mostrarErrorBaseDatos(
             String mensaje,
             SQLException ex) {
@@ -1600,9 +1539,7 @@ public class PanelCitas  extends JPanel{
         ex.printStackTrace();
     }
 
-    /**
-     * Actualiza el mensaje inferior.
-     */
+
     private void mostrarEstado(
             String mensaje,
             boolean esError) {

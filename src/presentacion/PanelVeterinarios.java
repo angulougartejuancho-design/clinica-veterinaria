@@ -59,21 +59,13 @@ public class PanelVeterinarios  extends JPanel{
 
     private JLabel lblEstado;
 
-    /*
-     * Lista utilizada para relacionar las filas de la tabla
-     * con los objetos Veterinario.
-     */
+
     private List<Veterinario> listaVeterinarios;
 
-    /*
-     * Guarda el ID del veterinario seleccionado.
-     * El valor 0 indica que no existe selección.
-     */
+
     private int idVeterinarioSeleccionado;
 
-    /**
-     * Constructor principal.
-     */
+
     public PanelVeterinarios() {
 
         veterinarioServicio =
@@ -89,9 +81,7 @@ public class PanelVeterinarios  extends JPanel{
         cargarVeterinarios();
     }
 
-    /**
-     * Inicializa todos los componentes visuales.
-     */
+
     private void inicializarComponentes() {
 
         setLayout(new BorderLayout(15, 15));
@@ -125,9 +115,7 @@ public class PanelVeterinarios  extends JPanel{
         );
     }
 
-    /**
-     * Crea el encabezado del módulo.
-     */
+
     private JPanel crearEncabezado() {
 
         JPanel panelEncabezado =
@@ -184,9 +172,7 @@ public class PanelVeterinarios  extends JPanel{
         return panelEncabezado;
     }
 
-    /**
-     * Crea el contenido central del panel.
-     */
+
     private JPanel crearContenidoCentral() {
 
         JPanel panelContenido =
@@ -209,10 +195,7 @@ public class PanelVeterinarios  extends JPanel{
         return panelContenido;
     }
 
-    /**
-     * Crea el formulario para registrar o actualizar
-     * veterinarios.
-     */
+
     private JPanel crearPanelFormulario() {
 
         JPanel panelFormulario =
@@ -252,9 +235,7 @@ public class PanelVeterinarios  extends JPanel{
         gbc.fill =
                 GridBagConstraints.HORIZONTAL;
 
-        /*
-         * Campo ID.
-         */
+
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0;
@@ -285,9 +266,7 @@ public class PanelVeterinarios  extends JPanel{
                 gbc
         );
 
-        /*
-         * Campo nombre.
-         */
+
         gbc.gridx = 2;
         gbc.weightx = 0;
 
@@ -311,9 +290,7 @@ public class PanelVeterinarios  extends JPanel{
                 gbc
         );
 
-        /*
-         * Especialidad.
-         */
+
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0;
@@ -342,9 +319,7 @@ public class PanelVeterinarios  extends JPanel{
                 gbc
         );
 
-        /*
-         * Campo teléfono.
-         */
+
         gbc.gridx = 2;
         gbc.weightx = 0;
 
@@ -368,9 +343,7 @@ public class PanelVeterinarios  extends JPanel{
                 gbc
         );
 
-        /*
-         * Campo correo.
-         */
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0;
@@ -396,9 +369,7 @@ public class PanelVeterinarios  extends JPanel{
                 gbc
         );
 
-        /*
-         * Botones.
-         */
+
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 4;
@@ -414,9 +385,7 @@ public class PanelVeterinarios  extends JPanel{
         return panelFormulario;
     }
 
-    /**
-     * Crea las etiquetas del formulario.
-     */
+
     private JLabel crearEtiqueta(
             String texto) {
 
@@ -438,9 +407,7 @@ public class PanelVeterinarios  extends JPanel{
         return etiqueta;
     }
 
-    /**
-     * Crea el panel de botones.
-     */
+
     private JPanel crearPanelBotones() {
 
         JPanel panelBotones =
@@ -481,9 +448,7 @@ public class PanelVeterinarios  extends JPanel{
         return panelBotones;
     }
 
-    /**
-     * Aplica una configuración común a los botones.
-     */
+
     private void configurarBoton(
             JButton boton) {
 
@@ -508,9 +473,7 @@ public class PanelVeterinarios  extends JPanel{
         );
     }
 
-    /**
-     * Crea el panel que contiene la tabla.
-     */
+
     private JPanel crearPanelTabla() {
 
         JPanel panelTabla =
@@ -635,9 +598,7 @@ public class PanelVeterinarios  extends JPanel{
         return panelTabla;
     }
 
-    /**
-     * Crea el mensaje inferior del panel.
-     */
+
     private JPanel crearPanelEstado() {
 
         JPanel panelEstado =
@@ -676,9 +637,7 @@ public class PanelVeterinarios  extends JPanel{
         return panelEstado;
     }
 
-    /**
-     * Configura todos los eventos del panel.
-     */
+
     private void configurarEventos() {
 
         btnRegistrar.addActionListener(
@@ -716,9 +675,7 @@ public class PanelVeterinarios  extends JPanel{
                 );
     }
 
-    /**
-     * Registra un veterinario nuevo.
-     */
+
     private void registrarVeterinario() {
 
         try {
@@ -760,9 +717,7 @@ public class PanelVeterinarios  extends JPanel{
         }
     }
 
-    /**
-     * Actualiza el veterinario seleccionado.
-     */
+
     private void actualizarVeterinario() {
 
         if (idVeterinarioSeleccionado <= 0) {
@@ -825,9 +780,7 @@ public class PanelVeterinarios  extends JPanel{
         }
     }
 
-    /**
-     * Elimina el veterinario seleccionado.
-     */
+
     private void eliminarVeterinario() {
 
         if (idVeterinarioSeleccionado <= 0) {
@@ -912,10 +865,7 @@ public class PanelVeterinarios  extends JPanel{
 
         } catch (SQLException ex) {
 
-            /*
-             * Algunos controladores MySQL entregan una SQLException
-             * normal aunque el error sea de llave foránea.
-             */
+ 
             if (esErrorLlaveForanea(ex)) {
 
                 JOptionPane.showMessageDialog(
@@ -941,9 +891,7 @@ public class PanelVeterinarios  extends JPanel{
         }
     }
 
-    /**
-     * Obtiene los datos ingresados en el formulario.
-     */
+
     private Veterinario obtenerVeterinarioFormulario(
             boolean incluirId) {
 
@@ -986,13 +934,7 @@ public class PanelVeterinarios  extends JPanel{
         );
     }
 
-    /**
-     * Carga todos los veterinarios desde la base
-     * de datos y los muestra en la tabla.
-     *
-     * Es público para permitir actualizar la tabla
-     * desde MainFrame u otros paneles.
-     */
+
     public final void cargarVeterinarios() {
 
         try {
@@ -1037,10 +979,7 @@ public class PanelVeterinarios  extends JPanel{
         }
     }
 
-    /**
-     * Coloca los datos de la fila seleccionada
-     * dentro del formulario.
-     */
+
     private void seleccionarVeterinario() {
 
         int filaVista =
@@ -1064,10 +1003,7 @@ public class PanelVeterinarios  extends JPanel{
             return;
         }
 
-        /*
-         * Debido al ordenamiento de JTable, buscamos
-         * el veterinario mediante el ID mostrado.
-         */
+
         int idSeleccionado =
                 Integer.parseInt(
                         modeloTabla
@@ -1127,9 +1063,7 @@ public class PanelVeterinarios  extends JPanel{
         );
     }
 
-    /**
-     * Busca un veterinario dentro de la lista cargada.
-     */
+
     private Veterinario buscarVeterinarioEnLista(
             int idVeterinario) {
 
@@ -1145,10 +1079,8 @@ public class PanelVeterinarios  extends JPanel{
 
         return null;
     }
-
-    /**
-     * Limpia los campos del formulario.
-     */
+    
+    
     private void limpiarFormulario() {
 
         idVeterinarioSeleccionado = 0;
@@ -1174,9 +1106,7 @@ public class PanelVeterinarios  extends JPanel{
         );
     }
 
-    /**
-     * Muestra un valor vacío de forma legible.
-     */
+    
     private String mostrarTexto(
             String texto) {
 
@@ -1189,9 +1119,7 @@ public class PanelVeterinarios  extends JPanel{
         return texto;
     }
 
-    /**
-     * Muestra un mensaje de validación.
-     */
+
     private void mostrarAdvertencia(
             String mensaje) {
 
@@ -1208,9 +1136,7 @@ public class PanelVeterinarios  extends JPanel{
         );
     }
 
-    /**
-     * Muestra un error relacionado con JDBC.
-     */
+
     private void mostrarErrorBaseDatos(
             String mensaje,
             SQLException ex) {
@@ -1232,17 +1158,11 @@ public class PanelVeterinarios  extends JPanel{
         ex.printStackTrace();
     }
 
-    /**
-     * Comprueba si una excepción fue provocada por una
-     * restricción de llave foránea.
-     */
+
     private boolean esErrorLlaveForanea(
             SQLException ex) {
 
-        /*
-         * Código MySQL 1451:
-         * Cannot delete or update a parent row.
-         */
+
         if (ex.getErrorCode() == 1451) {
             return true;
         }
@@ -1265,9 +1185,7 @@ public class PanelVeterinarios  extends JPanel{
                 );
     }
 
-    /**
-     * Actualiza el mensaje inferior del panel.
-     */
+
     private void mostrarEstado(
             String mensaje,
             boolean esError) {
