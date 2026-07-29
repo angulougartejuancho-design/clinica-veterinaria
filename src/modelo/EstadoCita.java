@@ -24,13 +24,7 @@ public enum EstadoCita {
         return descripcion;
     }
 
-    /**
-     * Convierte el valor almacenado en la base de datos
-     * en un EstadoCita.
-     *
-     * Ejemplo:
-     * "PROGRAMADA" -> EstadoCita.PROGRAMADA
-     */
+
     public static EstadoCita desdeTexto(String texto) {
 
         if (texto == null || texto.isBlank()) {

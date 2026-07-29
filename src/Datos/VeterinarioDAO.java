@@ -80,9 +80,8 @@ public class VeterinarioDAO {
         }
     }
 
-    /**
-     * Consulta todos los veterinarios registrados.
-     */
+
+     
     public List<Veterinario> listar()
             throws SQLException {
 
@@ -120,11 +119,8 @@ public class VeterinarioDAO {
         return veterinarios;
     }
 
-    /**
-     * Busca un veterinario por su identificador.
-     *
-     * @return veterinario encontrado o null si no existe
-     */
+
+    
     public Veterinario buscarPorId(
             int idVeterinario)
             throws SQLException {
@@ -166,9 +162,8 @@ public class VeterinarioDAO {
         return null;
     }
 
-    /**
-     * Busca un veterinario mediante su correo.
-     */
+
+    
     public Veterinario buscarPorEmail(
             String email)
             throws SQLException {
@@ -210,9 +205,8 @@ public class VeterinarioDAO {
         return null;
     }
 
-    /**
-     * Actualiza los datos de un veterinario.
-     */
+    
+   
     public boolean actualizar(
             Veterinario veterinario)
             throws SQLException {
@@ -264,13 +258,8 @@ public class VeterinarioDAO {
         }
     }
 
-    /**
-     * Elimina un veterinario mediante su identificador.
-     *
-     * MySQL impedirá la eliminación cuando tenga citas
-     * relacionadas debido a la llave foránea con
-     * ON DELETE RESTRICT.
-     */
+ 
+    
     public boolean eliminar(
             int idVeterinario)
             throws SQLException {
@@ -296,12 +285,7 @@ public class VeterinarioDAO {
         }
     }
 
-    /**
-     * Comprueba si existe otro veterinario con el mismo email.
-     *
-     * idVeterinarioExcluir debe ser 0 al registrar.
-     * Al actualizar, debe enviarse el ID editado.
-     */
+    
     public boolean existeEmail(
             String email,
             int idVeterinarioExcluir)
@@ -344,11 +328,8 @@ public class VeterinarioDAO {
 
         return false;
     }
+    
 
-    /**
-     * Construye un objeto Veterinario a partir
-     * de una fila del ResultSet.
-     */
     private Veterinario crearVeterinario(
             ResultSet resultado)
             throws SQLException {
@@ -373,11 +354,9 @@ public class VeterinarioDAO {
                 )
         );
     }
+    
+    
 
-    /**
-     * Convierte el texto almacenado en MySQL
-     * en una constante del enum Especialidad.
-     */
     private Especialidad convertirEspecialidad(
             String texto)
             throws SQLException {
@@ -424,11 +403,7 @@ public class VeterinarioDAO {
                         + texto
         );
     }
-
-    /**
-     * Elimina tildes y diferencias entre mayúsculas,
-     * minúsculas, espacios y guiones bajos.
-     */
+    
     private String normalizarTexto(
             String texto) {
 

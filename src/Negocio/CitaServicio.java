@@ -23,33 +23,20 @@ import java.util.List;
 public class CitaServicio {
     private final CitaDAO citaDAO;
 
-    /**
-     * Hora mínima permitida para registrar citas.
-     */
+    
     private static final LocalTime HORA_APERTURA =
             LocalTime.of(8, 0);
 
-    /**
-     * Hora máxima permitida para registrar citas.
-     */
+
     private static final LocalTime HORA_CIERRE =
             LocalTime.of(18, 0);
 
-    /**
-     * Constructor principal.
-     */
+
     public CitaServicio() {
         citaDAO = new CitaDAO();
     }
 
-    /**
-     * Registra una cita después de validar sus datos.
-     *
-     * @param cita cita que se desea registrar
-     * @throws IllegalArgumentException cuando los datos son inválidos
-     * @throws CitaNoDisponibleException cuando el horario ya está ocupado
-     * @throws SQLException cuando ocurre un error en la base de datos
-     */
+
     public void registrar(Cita cita)
             throws SQLException,
             CitaNoDisponibleException {
@@ -76,15 +63,7 @@ public class CitaServicio {
         citaDAO.insertar(cita);
     }
 
-    /**
-     * Actualiza una cita existente.
-     *
-     * El ID de la cita actual se excluye de la validación
-     * para evitar que choque contra su propio horario.
-     *
-     * @param cita cita modificada
-     * @return true si la cita fue actualizada
-     */
+
     public boolean actualizar(Cita cita)
             throws SQLException,
             CitaNoDisponibleException {
@@ -132,13 +111,7 @@ public class CitaServicio {
         return citaDAO.actualizar(cita);
     }
 
-    /**
-     * Modifica únicamente el estado de una cita.
-     *
-     * @param idCita identificador de la cita
-     * @param estado nuevo estado
-     * @return true si el estado fue actualizado
-     */
+
     public boolean cambiarEstado(
             int idCita,
             EstadoCita estado)
@@ -176,9 +149,7 @@ public class CitaServicio {
         );
     }
 
-    /**
-     * Cancela una cita.
-     */
+
     public boolean cancelar(int idCita)
             throws SQLException {
 
@@ -188,9 +159,7 @@ public class CitaServicio {
         );
     }
 
-    /**
-     * Confirma una cita programada.
-     */
+
     public boolean confirmar(int idCita)
             throws SQLException {
 
@@ -200,9 +169,7 @@ public class CitaServicio {
         );
     }
 
-    /**
-     * Marca una cita como completada.
-     */
+
     public boolean completar(int idCita)
             throws SQLException {
 
@@ -212,12 +179,7 @@ public class CitaServicio {
         );
     }
 
-    /**
-     * Elimina una cita mediante su ID.
-     *
-     * @param idCita identificador de la cita
-     * @return true si fue eliminada
-     */
+
     public boolean eliminar(int idCita)
             throws SQLException {
 
@@ -239,18 +201,14 @@ public class CitaServicio {
         return citaDAO.eliminar(idCita);
     }
 
-    /**
-     * Devuelve todas las citas registradas.
-     */
+ 
     public List<Cita> listar()
             throws SQLException {
 
         return citaDAO.listar();
     }
 
-    /**
-     * Busca una cita mediante su ID.
-     */
+
     public Cita buscarPorId(int idCita)
             throws SQLException {
 
@@ -263,9 +221,7 @@ public class CitaServicio {
         return citaDAO.buscarPorId(idCita);
     }
 
-    /**
-     * Devuelve las citas correspondientes a un veterinario.
-     */
+
     public List<Cita> listarPorVeterinario(
             int idVeterinario)
             throws SQLException {
@@ -281,9 +237,7 @@ public class CitaServicio {
         );
     }
 
-    /**
-     * Devuelve las citas correspondientes a una mascota.
-     */
+
     public List<Cita> listarPorMascota(
             int idMascota)
             throws SQLException {
@@ -299,9 +253,7 @@ public class CitaServicio {
         );
     }
 
-    /**
-     * Valida los datos principales de la cita.
-     */
+
     private void validarCita(Cita cita) {
 
         if (cita == null) {
@@ -336,10 +288,7 @@ public class CitaServicio {
             );
         }
 
-        /*
-         * No se permite registrar directamente una cita
-         * como completada o cancelada.
-         */
+
         if (cita.getId() <= 0
                 && cita.getEstado()
                 == EstadoCita.COMPLETADA) {
@@ -351,9 +300,7 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Valida que la mascota exista y posea un ID válido.
-     */
+ 
     private void validarMascota(
             Mascota mascota) {
 
@@ -370,9 +317,7 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Valida que el veterinario exista y posea un ID válido.
-     */
+    
     private void validarVeterinario(
             Veterinario veterinario) {
 
@@ -389,9 +334,7 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Valida la fecha de la cita.
-     */
+    
     private void validarFecha(
             LocalDate fecha) {
 
@@ -409,9 +352,7 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Valida la hora de la cita.
-     */
+
     private void validarHora(
             LocalTime hora) {
 
@@ -433,10 +374,7 @@ public class CitaServicio {
             );
         }
 
-        /*
-         * Las citas solo se permiten en intervalos
-         * exactos de 30 minutos.
-         */
+ 
         if (hora.getMinute() != 0
                 && hora.getMinute() != 30) {
 
@@ -455,19 +393,14 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Valida el motivo de la cita.
-     */
+
     private void validarMotivo(
             String motivo) {
 
         String motivoLimpio =
                 limpiarTexto(motivo);
 
-        /*
-         * En MySQL el motivo permite NULL, pero para el
-         * funcionamiento del sistema lo solicitaremos.
-         */
+
         if (motivoLimpio == null) {
             throw new IllegalArgumentException(
                     "Debe ingresar el motivo de la cita."
@@ -487,9 +420,7 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Controla las transiciones permitidas entre estados.
-     */
+
     private void validarCambioEstado(
             EstadoCita estadoActual,
             EstadoCita nuevoEstado) {
@@ -541,19 +472,14 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Limpia los datos antes de guardarlos.
-     */
+ 
     private void prepararDatos(Cita cita) {
 
         cita.setMotivo(
                 cita.getMotivo().trim()
         );
 
-        /*
-         * Cuando por algún motivo no se haya definido el
-         * estado, se utiliza PROGRAMADA como valor inicial.
-         */
+
         if (cita.getEstado() == null) {
             cita.setEstado(
                     EstadoCita.PROGRAMADA
@@ -561,9 +487,7 @@ public class CitaServicio {
         }
     }
 
-    /**
-     * Elimina espacios innecesarios.
-     */
+
     private String limpiarTexto(
             String texto) {
 

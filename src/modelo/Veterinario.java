@@ -12,18 +12,7 @@ import java.util.Objects;
 public class Veterinario extends Persona{
      private Especialidad especialidad;
 
-    /**
-     * Constructor completo.
-     *
-     * Se utiliza tanto para registrar como para recuperar
-     * veterinarios desde la base de datos.
-     *
-     * @param id identificador del veterinario
-     * @param nombre nombre completo
-     * @param telefono número telefónico
-     * @param email correo electrónico
-     * @param especialidad especialidad del veterinario
-     */
+
     public Veterinario(
             int id,
             String nombre,
@@ -36,11 +25,7 @@ public class Veterinario extends Persona{
         this.especialidad = especialidad;
     }
 
-    /**
-     * Constructor para registrar un veterinario nuevo.
-     *
-     * El ID será generado automáticamente por MySQL.
-     */
+
     public Veterinario(
             String nombre,
             String telefono,

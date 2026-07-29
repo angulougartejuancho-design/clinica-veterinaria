@@ -93,9 +93,6 @@ public class CitaDAO {
         }
     }
 
-    /**
-     * Consulta todas las citas registradas.
-     */
     public List<Cita> listar() throws SQLException {
 
         List<Cita> citas = new ArrayList<>();
@@ -145,11 +142,6 @@ public class CitaDAO {
         return citas;
     }
 
-    /**
-     * Busca una cita mediante su identificador.
-     *
-     * @return la cita encontrada o null si no existe
-     */
     public Cita buscarPorId(int idCita)
             throws SQLException {
 
@@ -201,9 +193,6 @@ public class CitaDAO {
         return null;
     }
 
-    /**
-     * Consulta las citas asignadas a un veterinario.
-     */
     public List<Cita> listarPorVeterinario(
             int idVeterinario)
             throws SQLException {
@@ -264,9 +253,6 @@ public class CitaDAO {
         return citas;
     }
 
-    /**
-     * Consulta las citas correspondientes a una mascota.
-     */
     public List<Cita> listarPorMascota(
             int idMascota)
             throws SQLException {
@@ -327,9 +313,6 @@ public class CitaDAO {
         return citas;
     }
 
-    /**
-     * Actualiza todos los datos de una cita.
-     */
     public boolean actualizar(Cita cita)
             throws SQLException {
 
@@ -390,9 +373,6 @@ public class CitaDAO {
         }
     }
 
-    /**
-     * Modifica únicamente el estado de una cita.
-     */
     public boolean actualizarEstado(
             int idCita,
             EstadoCita estado)
@@ -425,9 +405,6 @@ public class CitaDAO {
         }
     }
 
-    /**
-     * Elimina una cita mediante su identificador.
-     */
     public boolean eliminar(int idCita)
             throws SQLException {
 
@@ -452,13 +429,6 @@ public class CitaDAO {
         }
     }
 
-    /**
-     * Comprueba si un veterinario ya tiene una cita registrada
-     * en la misma fecha y hora.
-     *
-     * idCitaExcluir debe ser 0 al registrar una cita nueva.
-     * Al actualizar, debe enviarse el ID de la cita editada.
-     */
     public boolean existeHorarioOcupado(
             int idVeterinario,
             LocalDate fecha,
@@ -515,10 +485,7 @@ public class CitaDAO {
 
         return false;
     }
-
-    /**
-     * Construye un objeto Cita con los datos del ResultSet.
-     */
+    
     private Cita crearCita(
             ResultSet resultado)
             throws SQLException {
@@ -561,10 +528,6 @@ public class CitaDAO {
         );
     }
 
-    /**
-     * Construye una mascota con los datos obtenidos
-     * mediante el JOIN.
-     */
     private Mascota crearMascota(
             ResultSet resultado)
             throws SQLException {
@@ -594,10 +557,6 @@ public class CitaDAO {
         );
     }
 
-    /**
-     * Construye un veterinario con los datos obtenidos
-     * mediante el JOIN.
-     */
     private Veterinario crearVeterinario(
             ResultSet resultado)
             throws SQLException {
@@ -626,12 +585,7 @@ public class CitaDAO {
         );
     }
 
-    /**
-     * Convierte el texto almacenado en MySQL en una constante
-     * del enum Especialidad.
-     *
-     * También admite textos sin tildes, como "Cirugia".
-     */
+
     private Especialidad convertirEspecialidad(
             String texto)
             throws SQLException {
@@ -677,10 +631,7 @@ public class CitaDAO {
         );
     }
 
-    /**
-     * Elimina tildes y diferencias entre mayúsculas
-     * y minúsculas para comparar textos.
-     */
+
     private String normalizarTexto(String texto) {
 
         String textoSinTildes =

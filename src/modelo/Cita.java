@@ -121,10 +121,7 @@ public class Cita {
                 && veterinario.getId() == idVeterinario;
     }
 
-    /**
-     * Permite conocer si la cita pertenece a una mascota
-     * específica.
-     */
+
     public boolean perteneceALaMascota(
             int idMascota) {
 
@@ -132,10 +129,7 @@ public class Cita {
                 && mascota.getId() == idMascota;
     }
 
-    /**
-     * Comprueba si la cita está programada exactamente en
-     * una fecha y hora determinadas.
-     */
+    
     public boolean coincideConHorario(
             LocalDate fecha,
             LocalTime hora) {

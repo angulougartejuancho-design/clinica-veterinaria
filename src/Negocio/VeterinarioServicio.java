@@ -19,28 +19,18 @@ import java.util.regex.Pattern;
 public class VeterinarioServicio {
      private final VeterinarioDAO veterinarioDAO;
 
-    /*
-     * Expresión regular sencilla para validar correos.
-     */
+
     private static final Pattern PATRON_EMAIL =
             Pattern.compile(
                     "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
             );
 
-    /**
-     * Constructor principal.
-     */
+
     public VeterinarioServicio() {
         veterinarioDAO = new VeterinarioDAO();
     }
 
-    /**
-     * Registra un veterinario después de validar sus datos.
-     *
-     * @param veterinario veterinario que se desea registrar
-     * @throws IllegalArgumentException si los datos no son válidos
-     * @throws SQLException si ocurre un error con la base de datos
-     */
+
     public void registrar(Veterinario veterinario)
             throws SQLException {
 
@@ -50,10 +40,7 @@ public class VeterinarioServicio {
                 veterinario.getEmail()
         );
 
-        /*
-         * En la base de datos el email permite valores nulos.
-         * Solo se verifica duplicado cuando se ingresó un correo.
-         */
+
         if (email != null
                 && veterinarioDAO.existeEmail(email, 0)) {
 
@@ -68,14 +55,7 @@ public class VeterinarioServicio {
         veterinarioDAO.insertar(veterinario);
     }
 
-    /**
-     * Actualiza los datos de un veterinario existente.
-     *
-     * @param veterinario veterinario modificado
-     * @return true si fue actualizado
-     * @throws IllegalArgumentException si los datos son inválidos
-     * @throws SQLException si ocurre un error JDBC
-     */
+    
     public boolean actualizar(Veterinario veterinario)
             throws SQLException {
 
@@ -114,17 +94,7 @@ public class VeterinarioServicio {
         return veterinarioDAO.actualizar(veterinario);
     }
 
-    /**
-     * Elimina un veterinario mediante su ID.
-     *
-     * La base de datos impedirá eliminarlo cuando tenga
-     * citas relacionadas debido a ON DELETE RESTRICT.
-     *
-     * @param idVeterinario identificador del veterinario
-     * @return true si fue eliminado
-     * @throws IllegalArgumentException si el ID es inválido
-     * @throws SQLException si ocurre un error JDBC
-     */
+
     public boolean eliminar(int idVeterinario)
             throws SQLException {
 
@@ -146,18 +116,14 @@ public class VeterinarioServicio {
         return veterinarioDAO.eliminar(idVeterinario);
     }
 
-    /**
-     * Obtiene todos los veterinarios registrados.
-     */
+
     public List<Veterinario> listar()
             throws SQLException {
 
         return veterinarioDAO.listar();
     }
 
-    /**
-     * Busca un veterinario mediante su ID.
-     */
+
     public Veterinario buscarPorId(int idVeterinario)
             throws SQLException {
 
@@ -170,9 +136,7 @@ public class VeterinarioServicio {
         return veterinarioDAO.buscarPorId(idVeterinario);
     }
 
-    /**
-     * Busca un veterinario mediante su correo electrónico.
-     */
+
     public Veterinario buscarPorEmail(String email)
             throws SQLException {
 
@@ -193,9 +157,7 @@ public class VeterinarioServicio {
         return veterinarioDAO.buscarPorEmail(emailLimpio);
     }
 
-    /**
-     * Valida los datos principales del veterinario.
-     */
+
     private void validarVeterinario(
             Veterinario veterinario) {
 
@@ -285,12 +247,7 @@ public class VeterinarioServicio {
         }
     }
 
-    /**
-     * Limpia los textos antes de guardarlos.
-     *
-     * Los textos vacíos se convierten en null para que
-     * MySQL pueda almacenarlos correctamente en campos opcionales.
-     */
+
     private void prepararDatos(
             Veterinario veterinario) {
 
@@ -317,9 +274,7 @@ public class VeterinarioServicio {
         veterinario.setEmail(emailLimpio);
     }
 
-    /**
-     * Comprueba el formato del correo.
-     */
+
     private boolean esEmailValido(String email) {
 
         return PATRON_EMAIL
@@ -327,11 +282,7 @@ public class VeterinarioServicio {
                 .matches();
     }
 
-    /**
-     * Elimina espacios innecesarios.
-     *
-     * @return null cuando el texto está vacío
-     */
+
     private String limpiarTexto(String texto) {
 
         if (texto == null) {
@@ -345,5 +296,6 @@ public class VeterinarioServicio {
         }
 
         return textoLimpio;
+        
     }
 }
