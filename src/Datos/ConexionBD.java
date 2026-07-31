@@ -20,7 +20,7 @@ public class ConexionBD {
             + "&serverTimezone=America/Costa_Rica";
 
     private static final String USUARIO = "root";
-    private static final String CONTRASENA = "daryelin123";
+    private static final String CONTRASENA = "daniel290703@";
 
     private ConexionBD() {
     }
