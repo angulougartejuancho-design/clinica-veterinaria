@@ -9,7 +9,7 @@ import javax.swing.JTabbedPane;
 
 public class MainFrame extends JFrame {
 
- private final JTabbedPane pestañas;
+    private final JTabbedPane pestañas;
 
     public MainFrame() {
 
@@ -25,8 +25,8 @@ public class MainFrame extends JFrame {
                 JFrame.EXIT_ON_CLOSE
         );
 
-        pestañas =
-                new JTabbedPane();
+        pestañas
+                = new JTabbedPane();
 
         pestañas.addTab(
                 "Clientes",
@@ -48,7 +48,12 @@ public class MainFrame extends JFrame {
                 new PanelCitas()
         );
 
+        pestañas.addTab(
+                "Facturación",
+                new PanelFacturacion()
+        );
+
         add(pestañas);
     }
-    
+
 }
