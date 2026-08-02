@@ -21,7 +21,12 @@ public class Vacunacion extends Servicio {
             double costoBase,
             String tipoVacuna) {
 
-        super(id, nombre, descripcion, costoBase);
+        super(
+                id,
+                nombre,
+                descripcion,
+                costoBase
+        );
 
         this.tipoVacuna = tipoVacuna;
     }
@@ -32,34 +37,47 @@ public class Vacunacion extends Servicio {
             double costoBase,
             String tipoVacuna) {
 
-        super(nombre, descripcion, costoBase);
+        super(
+                nombre,
+                descripcion,
+                costoBase
+        );
 
         this.tipoVacuna = tipoVacuna;
     }
 
     public String getTipoVacuna() {
+
         return tipoVacuna;
     }
 
-    public void setTipoVacuna(String tipoVacuna) {
+    public void setTipoVacuna(
+            String tipoVacuna) {
+
         this.tipoVacuna = tipoVacuna;
     }
 
-    public static double getRecargoCadenaFrio() {
+    public static double
+            getRecargoCadenaFrio() {
+
         return RECARGO_CADENA_FRIO;
     }
 
+    /**
+     * Calcula el valor de la vacunación antes del IVA.
+     *
+     * Precio sin IVA = costo base + recargo por cadena de frío.
+     */
     @Override
-    public double calcularPrecio() {
+    public double calcularPrecioSinIVA() {
 
-        double subtotal =
-                getCostoBase() + RECARGO_CADENA_FRIO;
-
-        return subtotal + (subtotal * IVA);
+        return getCostoBase()
+                + RECARGO_CADENA_FRIO;
     }
 
     @Override
     public TipoServicio getTipo() {
+
         return TipoServicio.VACUNACION;
     }
 }
