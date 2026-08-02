@@ -21,9 +21,15 @@ public class Procedimiento extends Servicio {
             double costoBase,
             int duracionMinutos) {
 
-        super(id, nombre, descripcion, costoBase);
+        super(
+                id,
+                nombre,
+                descripcion,
+                costoBase
+        );
 
-        this.duracionMinutos = duracionMinutos;
+        this.duracionMinutos
+                = duracionMinutos;
     }
 
     public Procedimiento(
@@ -32,36 +38,56 @@ public class Procedimiento extends Servicio {
             double costoBase,
             int duracionMinutos) {
 
-        super(nombre, descripcion, costoBase);
+        super(
+                nombre,
+                descripcion,
+                costoBase
+        );
 
-        this.duracionMinutos = duracionMinutos;
+        this.duracionMinutos
+                = duracionMinutos;
     }
 
     public int getDuracionMinutos() {
+
         return duracionMinutos;
     }
 
-    public void setDuracionMinutos(int duracionMinutos) {
-        this.duracionMinutos = duracionMinutos;
+    public void setDuracionMinutos(
+            int duracionMinutos) {
+
+        if (duracionMinutos < 0) {
+            throw new IllegalArgumentException(
+                    "La duración no puede ser negativa."
+            );
+        }
+
+        this.duracionMinutos
+                = duracionMinutos;
     }
 
-    public static double getTarifaPorMinuto() {
+    public static double
+            getTarifaPorMinuto() {
+
         return TARIFA_POR_MINUTO;
     }
 
+    /**
+     * Calcula el valor del procedimiento antes del IVA.
+     *
+     * Precio sin IVA = costo base + duración por tarifa por minuto.
+     */
     @Override
-    public double calcularPrecio() {
+    public double calcularPrecioSinIVA() {
 
-        double subtotal =
-                getCostoBase()
-                + (duracionMinutos * TARIFA_POR_MINUTO);
-
-        return subtotal + (subtotal * IVA);
+        return getCostoBase()
+                + (duracionMinutos
+                * TARIFA_POR_MINUTO);
     }
 
     @Override
     public TipoServicio getTipo() {
+
         return TipoServicio.PROCEDIMIENTO;
     }
 }
-

@@ -19,7 +19,12 @@ public class ConsultaGeneral extends Servicio {
             double costoBase,
             String motivoTipico) {
 
-        super(id, nombre, descripcion, costoBase);
+        super(
+                id,
+                nombre,
+                descripcion,
+                costoBase
+        );
 
         this.motivoTipico = motivoTipico;
     }
@@ -30,30 +35,40 @@ public class ConsultaGeneral extends Servicio {
             double costoBase,
             String motivoTipico) {
 
-        super(nombre, descripcion, costoBase);
+        super(
+                nombre,
+                descripcion,
+                costoBase
+        );
 
         this.motivoTipico = motivoTipico;
     }
 
     public String getMotivoTipico() {
+
         return motivoTipico;
     }
 
-    public void setMotivoTipico(String motivoTipico) {
+    public void setMotivoTipico(
+            String motivoTipico) {
+
         this.motivoTipico = motivoTipico;
     }
 
+    /**
+     * La consulta general no posee recargos.
+     *
+     * Precio sin IVA = costo base.
+     */
     @Override
-    public double calcularPrecio() {
+    public double calcularPrecioSinIVA() {
 
-        double costoBase = getCostoBase();
-
-        return costoBase + (costoBase * IVA);
+        return getCostoBase();
     }
 
     @Override
     public TipoServicio getTipo() {
+
         return TipoServicio.CONSULTA_GENERAL;
     }
 }
-

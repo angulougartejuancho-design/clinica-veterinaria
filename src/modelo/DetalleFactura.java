@@ -15,44 +15,48 @@ public class DetalleFactura {
     private int idDetalle;
     private int idFactura;
     private Servicio servicio;
+
+    /**
+     * Precio unitario sin IVA.
+     */
     private double precioUnitario;
+
     private int cantidad;
+
+    /**
+     * Subtotal de la línea sin IVA.
+     */
     private double subtotal;
 
     /**
      * Constructor para crear un detalle nuevo.
-     *
-     * El precio unitario se obtiene usando calcularPrecio() del servicio.
      */
     public DetalleFactura(
             Servicio servicio,
             int cantidad) {
 
-        if (servicio == null) {
-            throw new IllegalArgumentException(
-                    "El servicio no puede ser nulo."
-            );
-        }
-
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException(
-                    "La cantidad debe ser mayor que cero."
-            );
-        }
+        validarServicio(servicio);
+        validarCantidad(cantidad);
 
         this.idDetalle = 0;
         this.idFactura = 0;
         this.servicio = servicio;
-        this.precioUnitario = servicio.calcularPrecio();
+
+        /*
+         * Se guarda el precio antes del IVA,
+         * pero incluyendo los recargos propios.
+         */
+        this.precioUnitario
+                = servicio.calcularPrecioSinIVA();
+
         this.cantidad = cantidad;
 
         calcularSubtotal();
     }
 
     /**
-     * Constructor completo.
-     *
-     * Se utilizará al recuperar detalles desde la base de datos.
+     * Constructor completo utilizado al recuperar un detalle desde la base de
+     * datos.
      */
     public DetalleFactura(
             int idDetalle,
@@ -65,65 +69,95 @@ public class DetalleFactura {
         this.idDetalle = idDetalle;
         this.idFactura = idFactura;
         this.servicio = servicio;
-        this.precioUnitario = precioUnitario;
+        this.precioUnitario
+                = precioUnitario;
         this.cantidad = cantidad;
         this.subtotal = subtotal;
     }
 
     /**
-     * Calcula el subtotal del detalle.
+     * Calcula el subtotal sin IVA.
      *
-     * subtotal = precioUnitario * cantidad
+     * subtotal = precioUnitario × cantidad
      */
     public void calcularSubtotal() {
 
-        if (cantidad <= 0 || precioUnitario < 0) {
+        if (cantidad <= 0
+                || precioUnitario < 0) {
+
             subtotal = 0;
             return;
         }
 
-        subtotal = precioUnitario * cantidad;
+        subtotal
+                = precioUnitario * cantidad;
+    }
+
+    /**
+     * Calcula el impuesto correspondiente a este detalle.
+     */
+    public double calcularImpuesto() {
+
+        return subtotal
+                * Servicio.getIVA();
+    }
+
+    /**
+     * Calcula el total del detalle con IVA.
+     */
+    public double calcularTotalConImpuesto() {
+
+        return subtotal
+                + calcularImpuesto();
     }
 
     public int getIdDetalle() {
+
         return idDetalle;
     }
 
-    public void setIdDetalle(int idDetalle) {
+    public void setIdDetalle(
+            int idDetalle) {
+
         this.idDetalle = idDetalle;
     }
 
     public int getIdFactura() {
+
         return idFactura;
     }
 
-    public void setIdFactura(int idFactura) {
+    public void setIdFactura(
+            int idFactura) {
+
         this.idFactura = idFactura;
     }
 
     public Servicio getServicio() {
+
         return servicio;
     }
 
-    public void setServicio(Servicio servicio) {
+    public void setServicio(
+            Servicio servicio) {
 
-        if (servicio == null) {
-            throw new IllegalArgumentException(
-                    "El servicio no puede ser nulo."
-            );
-        }
+        validarServicio(servicio);
 
         this.servicio = servicio;
-        this.precioUnitario = servicio.calcularPrecio();
+
+        this.precioUnitario
+                = servicio.calcularPrecioSinIVA();
 
         calcularSubtotal();
     }
 
     public double getPrecioUnitario() {
+
         return precioUnitario;
     }
 
-    public void setPrecioUnitario(double precioUnitario) {
+    public void setPrecioUnitario(
+            double precioUnitario) {
 
         if (precioUnitario < 0) {
             throw new IllegalArgumentException(
@@ -131,22 +165,21 @@ public class DetalleFactura {
             );
         }
 
-        this.precioUnitario = precioUnitario;
+        this.precioUnitario
+                = precioUnitario;
 
         calcularSubtotal();
     }
 
     public int getCantidad() {
+
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setCantidad(
+            int cantidad) {
 
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException(
-                    "La cantidad debe ser mayor que cero."
-            );
-        }
+        validarCantidad(cantidad);
 
         this.cantidad = cantidad;
 
@@ -154,10 +187,12 @@ public class DetalleFactura {
     }
 
     public double getSubtotal() {
+
         return subtotal;
     }
 
-    public void setSubtotal(double subtotal) {
+    public void setSubtotal(
+            double subtotal) {
 
         if (subtotal < 0) {
             throw new IllegalArgumentException(
@@ -166,6 +201,26 @@ public class DetalleFactura {
         }
 
         this.subtotal = subtotal;
+    }
+
+    private void validarServicio(
+            Servicio servicio) {
+
+        if (servicio == null) {
+            throw new IllegalArgumentException(
+                    "El servicio no puede ser nulo."
+            );
+        }
+    }
+
+    private void validarCantidad(
+            int cantidad) {
+
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException(
+                    "La cantidad debe ser mayor que cero."
+            );
+        }
     }
 
     @Override
@@ -179,8 +234,11 @@ public class DetalleFactura {
         return nombreServicio
                 + " - Cantidad: "
                 + cantidad
-                + " - Subtotal: ₡"
-                + String.format("%.2f", subtotal);
+                + " - Subtotal sin IVA: ₡"
+                + String.format(
+                        "%,.2f",
+                        subtotal
+                );
     }
 
     @Override
@@ -191,11 +249,15 @@ public class DetalleFactura {
         }
 
         if (!(objeto instanceof DetalleFactura otroDetalle)) {
+
             return false;
         }
 
-        if (idDetalle > 0 && otroDetalle.idDetalle > 0) {
-            return idDetalle == otroDetalle.idDetalle;
+        if (idDetalle > 0
+                && otroDetalle.idDetalle > 0) {
+
+            return idDetalle
+                    == otroDetalle.idDetalle;
         }
 
         return Objects.equals(

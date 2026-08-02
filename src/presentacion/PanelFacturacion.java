@@ -23,6 +23,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.sql.SQLException;
 
@@ -91,12 +93,16 @@ public class PanelFacturacion extends JPanel {
     private JLabel lblImpuesto;
     private JLabel lblTotal;
     private JLabel lblEstado;
+    private JLabel lblNumeroFactura;
+    private JLabel lblCantidadServicios;
 
     /*
      * Botones.
      */
     private JButton btnAgregarServicio;
     private JButton btnEliminarDetalle;
+    private JButton btnModificarCantidad;
+    private JButton btnVaciarFactura;
     private JButton btnGuardarFactura;
     private JButton btnLimpiar;
     private JButton btnRefrescar;
@@ -450,115 +456,83 @@ public class PanelFacturacion extends JPanel {
      */
     private JPanel crearPanelDetalleFactura() {
 
-        JPanel panel
-                = new JPanel(
-                        new BorderLayout(10, 10)
-                );
-
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(Color.WHITE);
-
         panel.setBorder(
                 BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(
-                                new Color(
-                                        215,
-                                        220,
-                                        225
-                                )
+                                new Color(215, 220, 225)
                         ),
-                        new EmptyBorder(
-                                15,
-                                15,
-                                15,
-                                15
-                        )
+                        new EmptyBorder(15, 15, 15, 15)
                 )
         );
 
-        JLabel lblTitulo
-                = new JLabel(
-                        "Detalle de la factura"
-                );
+        JPanel panelTitulo = new JPanel(new BorderLayout());
+        panelTitulo.setOpaque(false);
 
-        lblTitulo.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
+        JLabel lblTitulo = new JLabel("Detalle de la factura");
+        lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
+        lblTitulo.setForeground(new Color(35, 55, 75));
 
-        lblTitulo.setForeground(
-                new Color(35, 55, 75)
-        );
+        lblNumeroFactura = new JLabel("Factura nueva");
+        lblNumeroFactura.setFont(new Font("Arial", Font.BOLD, 15));
+        lblNumeroFactura.setForeground(new Color(25, 105, 70));
 
-        modeloDetalles
-                = new DefaultTableModel(
-                        new Object[]{
-                            "ID servicio",
-                            "Servicio",
-                            "Tipo",
-                            "Precio unitario",
-                            "Cantidad",
-                            "Subtotal"
-                        },
-                        0
-                ) {
+        lblCantidadServicios = new JLabel("Servicios agregados: 0");
+        lblCantidadServicios.setFont(new Font("Arial", Font.PLAIN, 13));
+        lblCantidadServicios.setForeground(new Color(80, 95, 110));
 
+        JPanel panelInfo = new JPanel(new GridLayout(2, 1));
+        panelInfo.setOpaque(false);
+        panelInfo.add(lblNumeroFactura);
+        panelInfo.add(lblCantidadServicios);
+
+        panelTitulo.add(lblTitulo, BorderLayout.WEST);
+        panelTitulo.add(panelInfo, BorderLayout.EAST);
+
+        modeloDetalles = new DefaultTableModel(
+                new Object[]{
+                    "ID servicio",
+                    "Servicio",
+                    "Tipo",
+                    "Precio sin IVA",
+                    "Cantidad",
+                    "Subtotal sin IVA"
+                },
+                0
+        ) {
             @Override
-            public boolean isCellEditable(
-                    int fila,
-                    int columna) {
-
+            public boolean isCellEditable(int fila, int columna) {
                 return false;
             }
         };
 
-        tablaDetalles
-                = new JTable(modeloDetalles);
-
+        tablaDetalles = new JTable(modeloDetalles);
         configurarTabla(tablaDetalles);
 
-        btnEliminarDetalle
-                = new JButton(
-                        "Eliminar detalle"
-                );
+        btnModificarCantidad = new JButton("Modificar cantidad");
+        btnEliminarDetalle = new JButton("Eliminar detalle");
+        btnVaciarFactura = new JButton("Vaciar factura");
 
-        configurarBoton(
-                btnEliminarDetalle
-        );
+        configurarBoton(btnModificarCantidad);
+        configurarBoton(btnEliminarDetalle);
+        configurarBoton(btnVaciarFactura);
 
+        btnModificarCantidad.setEnabled(false);
         btnEliminarDetalle.setEnabled(false);
+        btnVaciarFactura.setEnabled(false);
 
-        JPanel panelBoton
-                = new JPanel(
-                        new FlowLayout(
-                                FlowLayout.RIGHT
-                        )
-                );
-
-        panelBoton.setOpaque(false);
-
-        panelBoton.add(
-                btnEliminarDetalle
+        JPanel panelBotones = new JPanel(
+                new FlowLayout(FlowLayout.RIGHT)
         );
+        panelBotones.setOpaque(false);
+        panelBotones.add(btnModificarCantidad);
+        panelBotones.add(btnEliminarDetalle);
+        panelBotones.add(btnVaciarFactura);
 
-        panel.add(
-                lblTitulo,
-                BorderLayout.NORTH
-        );
-
-        panel.add(
-                new JScrollPane(
-                        tablaDetalles
-                ),
-                BorderLayout.CENTER
-        );
-
-        panel.add(
-                panelBoton,
-                BorderLayout.SOUTH
-        );
+        panel.add(panelTitulo, BorderLayout.NORTH);
+        panel.add(new JScrollPane(tablaDetalles), BorderLayout.CENTER);
+        panel.add(panelBotones, BorderLayout.SOUTH);
 
         return panel;
     }
@@ -959,6 +933,14 @@ public class PanelFacturacion extends JPanel {
                 evento -> eliminarDetalle()
         );
 
+        btnModificarCantidad.addActionListener(
+                evento -> modificarCantidadDetalle()
+        );
+
+        btnVaciarFactura.addActionListener(
+                evento -> vaciarFactura()
+        );
+
         btnGuardarFactura.addActionListener(
                 evento -> guardarFacturaConMultihilo()
         );
@@ -987,8 +969,21 @@ public class PanelFacturacion extends JPanel {
 
                             btnEliminarDetalle
                                     .setEnabled(seleccion);
+
+                            btnModificarCantidad
+                                    .setEnabled(seleccion);
                         }
                 );
+
+        tablaDetalles.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evento) {
+                if (evento.getClickCount() == 2
+                        && tablaDetalles.getSelectedRow() >= 0) {
+                    modificarCantidadDetalle();
+                }
+            }
+        });
     }
 
     /*
@@ -1312,6 +1307,94 @@ public class PanelFacturacion extends JPanel {
         }
     }
 
+    /**
+     * Permite modificar la cantidad del detalle seleccionado. También se
+     * ejecuta con doble clic sobre la fila.
+     */
+    private void modificarCantidadDetalle() {
+
+        int fila = tablaDetalles.getSelectedRow();
+
+        if (fila < 0 || facturaActual == null) {
+            mostrarAdvertencia(
+                    "Seleccione un detalle para modificar."
+            );
+            return;
+        }
+
+        DetalleFactura detalle
+                = facturaActual.getDetalles().get(fila);
+
+        JSpinner selectorCantidad = new JSpinner(
+                new SpinnerNumberModel(
+                        detalle.getCantidad(),
+                        1,
+                        100,
+                        1
+                )
+        );
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                selectorCantidad,
+                "Nueva cantidad para "
+                + detalle.getServicio().getNombre(),
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (respuesta != JOptionPane.OK_OPTION) {
+            return;
+        }
+
+        int nuevaCantidad
+                = (Integer) selectorCantidad.getValue();
+
+        detalle.setCantidad(nuevaCantidad);
+        facturaActual.calcularTotales();
+
+        actualizarTablaDetalles();
+        actualizarMontos();
+
+        lblEstado.setText(
+                "Cantidad modificada correctamente."
+        );
+    }
+
+    /**
+     * Elimina todos los servicios de la factura actual.
+     */
+    private void vaciarFactura() {
+
+        if (facturaActual == null
+                || !facturaActual.tieneDetalles()) {
+            mostrarAdvertencia(
+                    "La factura no contiene servicios."
+            );
+            return;
+        }
+
+        int respuesta = JOptionPane.showConfirmDialog(
+                this,
+                "¿Desea eliminar todos los servicios de la factura?",
+                "Vaciar factura",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE
+        );
+
+        if (respuesta != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        facturaActual.limpiarDetalles();
+        tablaDetalles.clearSelection();
+
+        actualizarTablaDetalles();
+        actualizarMontos();
+
+        lblEstado.setText("Factura vaciada correctamente.");
+    }
+
     /*
      * Guarda la factura usando SwingWorker.
      *
@@ -1336,11 +1419,17 @@ public class PanelFacturacion extends JPanel {
         int respuesta
                 = JOptionPane.showConfirmDialog(
                         this,
-                        "Total de la factura: "
-                        + formatearMoneda(
-                                facturaActual.getTotal()
-                        )
-                        + "\n¿Desea guardar la factura?",
+                        "Cliente: "
+                        + facturaActual.getCliente().getNombre()
+                        + "\nServicios: "
+                        + facturaActual.obtenerCantidadTotalServicios()
+                        + "\nSubtotal: "
+                        + formatearMoneda(facturaActual.getSubtotal())
+                        + "\nImpuesto: "
+                        + formatearMoneda(facturaActual.getImpuesto())
+                        + "\nTOTAL: "
+                        + formatearMoneda(facturaActual.getTotal())
+                        + "\n\n¿Desea guardar la factura?",
                         "Confirmar factura",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE
@@ -1531,8 +1620,28 @@ public class PanelFacturacion extends JPanel {
         modeloDetalles.setRowCount(0);
 
         if (facturaActual == null) {
+            if (lblNumeroFactura != null) {
+                lblNumeroFactura.setText("Factura nueva");
+                lblCantidadServicios.setText("Servicios agregados: 0");
+            }
+            btnVaciarFactura.setEnabled(false);
             return;
         }
+
+        if (facturaActual.getIdFactura() > 0) {
+            lblNumeroFactura.setText(
+                    String.format("Factura #%05d", facturaActual.getIdFactura())
+            );
+        } else {
+            lblNumeroFactura.setText("Factura nueva");
+        }
+
+        lblCantidadServicios.setText(
+                "Servicios agregados: "
+                + facturaActual.obtenerCantidadTotalServicios()
+        );
+
+        btnVaciarFactura.setEnabled(facturaActual.tieneDetalles());
 
         for (DetalleFactura detalle
                 : facturaActual.getDetalles()) {
@@ -1666,10 +1775,21 @@ public class PanelFacturacion extends JPanel {
         btnRefrescar
                 .setEnabled(habilitado);
 
+        boolean filaSeleccionada
+                = tablaDetalles.getSelectedRow() >= 0;
+
         btnEliminarDetalle.setEnabled(
+                habilitado && filaSeleccionada
+        );
+
+        btnModificarCantidad.setEnabled(
+                habilitado && filaSeleccionada
+        );
+
+        btnVaciarFactura.setEnabled(
                 habilitado
-                && tablaDetalles
-                        .getSelectedRow() >= 0
+                && facturaActual != null
+                && facturaActual.tieneDetalles()
         );
     }
 

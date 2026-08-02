@@ -20,8 +20,19 @@ public class Factura {
     private Cliente cliente;
     private LocalDateTime fecha;
 
+    /**
+     * Total antes del IVA.
+     */
     private double subtotal;
+
+    /**
+     * IVA correspondiente a la factura.
+     */
     private double impuesto;
+
+    /**
+     * Total final con IVA.
+     */
     private double total;
 
     private EstadoFactura estado;
@@ -44,15 +55,19 @@ public class Factura {
         this.impuesto = 0;
         this.total = 0;
 
-        this.estado = EstadoFactura.PENDIENTE;
-        this.observaciones = observaciones;
+        this.estado
+                = EstadoFactura.PENDIENTE;
 
-        this.detalles = new ArrayList<>();
+        this.observaciones
+                = observaciones;
+
+        this.detalles
+                = new ArrayList<>();
     }
 
     /**
-     * Constructor completo utilizado cuando se recupera una factura desde la
-     * base de datos.
+     * Constructor completo utilizado al recuperar una factura desde la base de
+     * datos.
      */
     public Factura(
             int idFactura,
@@ -71,15 +86,20 @@ public class Factura {
         this.impuesto = impuesto;
         this.total = total;
         this.estado = estado;
-        this.observaciones = observaciones;
+        this.observaciones
+                = observaciones;
 
-        this.detalles = new ArrayList<>();
+        this.detalles
+                = new ArrayList<>();
     }
 
     /**
      * Agrega un detalle a la factura.
+     *
+     * Si el mismo servicio ya se encuentra agregado, aumenta su cantidad.
      */
-    public void agregarDetalle(DetalleFactura detalle) {
+    public void agregarDetalle(
+            DetalleFactura detalle) {
 
         if (detalle == null) {
             throw new IllegalArgumentException(
@@ -93,22 +113,28 @@ public class Factura {
             );
         }
 
-        /*
-         * Si el servicio ya se encuentra agregado,
-         * se aumenta la cantidad.
-         */
-        for (DetalleFactura detalleActual : detalles) {
+        for (DetalleFactura detalleActual
+                : detalles) {
 
-            if (detalleActual.getServicio() != null
-                    && detalle.getServicio() != null
-                    && detalleActual.getServicio().getId()
-                    == detalle.getServicio().getId()) {
+            if (detalleActual.getServicio()
+                    != null
+                    && detalle.getServicio()
+                    != null
+                    && detalleActual
+                            .getServicio()
+                            .getId()
+                    == detalle
+                            .getServicio()
+                            .getId()) {
 
                 int nuevaCantidad
-                        = detalleActual.getCantidad()
+                        = detalleActual
+                                .getCantidad()
                         + detalle.getCantidad();
 
-                detalleActual.setCantidad(nuevaCantidad);
+                detalleActual.setCantidad(
+                        nuevaCantidad
+                );
 
                 calcularTotales();
                 return;
@@ -116,100 +142,110 @@ public class Factura {
         }
 
         detalle.setIdFactura(idFactura);
+
         detalles.add(detalle);
 
         calcularTotales();
     }
 
     /**
-     * Elimina un detalle según su posición en la lista.
+     * Elimina un detalle según su posición.
      */
-    public boolean eliminarDetalle(int indice) {
+    public boolean eliminarDetalle(
+            int indice) {
 
-        if (indice < 0 || indice >= detalles.size()) {
+        if (indice < 0
+                || indice >= detalles.size()) {
+
             return false;
         }
 
         detalles.remove(indice);
+
         calcularTotales();
 
         return true;
     }
 
     /**
-     * Elimina todos los servicios agregados.
+     * Elimina todos los detalles.
      */
     public void limpiarDetalles() {
 
         detalles.clear();
+
         calcularTotales();
     }
 
     /**
-     * Calcula los montos de la factura.
+     * Calcula subtotal, impuesto y total.
      *
-     * El precio unitario almacenado en cada detalle será el precio final
-     * calculado por el servicio.
+     * Subtotal = suma de detalles sin IVA. Impuesto = subtotal × 13 %. Total =
+     * subtotal + impuesto.
      */
     public void calcularTotales() {
 
         subtotal = 0;
 
-        for (DetalleFactura detalle : detalles) {
+        for (DetalleFactura detalle
+                : detalles) {
 
             detalle.calcularSubtotal();
 
-            subtotal += detalle.getSubtotal();
+            subtotal
+                    += detalle.getSubtotal();
         }
 
-        /*
-         * Los servicios del proyecto ya calculan el IVA
-         * mediante calcularPrecio(). Por eso no debemos
-         * agregar nuevamente el 13 % aquí.
-         */
-        impuesto = 0;
-        total = subtotal;
+        impuesto
+                = subtotal * Servicio.getIVA();
+
+        total
+                = subtotal + impuesto;
     }
 
-    /**
-     * Retorna la cantidad total de unidades facturadas.
-     */
     public int obtenerCantidadTotalServicios() {
 
         int cantidadTotal = 0;
 
-        for (DetalleFactura detalle : detalles) {
-            cantidadTotal += detalle.getCantidad();
+        for (DetalleFactura detalle
+                : detalles) {
+
+            cantidadTotal
+                    += detalle.getCantidad();
         }
 
         return cantidadTotal;
     }
 
-    /**
-     * Indica si la factura posee servicios agregados.
-     */
     public boolean tieneDetalles() {
+
         return !detalles.isEmpty();
     }
 
     public int getIdFactura() {
+
         return idFactura;
     }
 
-    public void setIdFactura(int idFactura) {
+    public void setIdFactura(
+            int idFactura) {
 
         this.idFactura = idFactura;
 
-        for (DetalleFactura detalle : detalles) {
+        for (DetalleFactura detalle
+                : detalles) {
+
             detalle.setIdFactura(idFactura);
         }
     }
 
     public Cliente getCliente() {
+
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(
+            Cliente cliente) {
 
         if (cliente == null) {
             throw new IllegalArgumentException(
@@ -221,42 +257,56 @@ public class Factura {
     }
 
     public LocalDateTime getFecha() {
+
         return fecha;
     }
 
-    public void setFecha(LocalDateTime fecha) {
+    public void setFecha(
+            LocalDateTime fecha) {
+
         this.fecha = fecha;
     }
 
     public double getSubtotal() {
+
         return subtotal;
     }
 
-    public void setSubtotal(double subtotal) {
+    public void setSubtotal(
+            double subtotal) {
+
         this.subtotal = subtotal;
     }
 
     public double getImpuesto() {
+
         return impuesto;
     }
 
-    public void setImpuesto(double impuesto) {
+    public void setImpuesto(
+            double impuesto) {
+
         this.impuesto = impuesto;
     }
 
     public double getTotal() {
+
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(
+            double total) {
+
         this.total = total;
     }
 
     public EstadoFactura getEstado() {
+
         return estado;
     }
 
-    public void setEstado(EstadoFactura estado) {
+    public void setEstado(
+            EstadoFactura estado) {
 
         if (estado == null) {
             throw new IllegalArgumentException(
@@ -268,17 +318,19 @@ public class Factura {
     }
 
     public String getObservaciones() {
+
         return observaciones;
     }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setObservaciones(
+            String observaciones) {
+
+        this.observaciones
+                = observaciones;
     }
 
-    /**
-     * Devuelve una lista no modificable.
-     */
-    public List<DetalleFactura> getDetalles() {
+    public List<DetalleFactura>
+            getDetalles() {
 
         return Collections.unmodifiableList(
                 detalles
@@ -298,7 +350,10 @@ public class Factura {
                 + " - "
                 + nombreCliente
                 + " - ₡"
-                + String.format("%.2f", total);
+                + String.format(
+                        "%,.2f",
+                        total
+                );
     }
 
     @Override
@@ -309,15 +364,24 @@ public class Factura {
         }
 
         if (!(objeto instanceof Factura otraFactura)) {
+
             return false;
         }
 
-        if (idFactura > 0 && otraFactura.idFactura > 0) {
-            return idFactura == otraFactura.idFactura;
+        if (idFactura > 0
+                && otraFactura.idFactura > 0) {
+
+            return idFactura
+                    == otraFactura.idFactura;
         }
 
-        return Objects.equals(cliente, otraFactura.cliente)
-                && Objects.equals(fecha, otraFactura.fecha);
+        return Objects.equals(
+                cliente,
+                otraFactura.cliente
+        ) && Objects.equals(
+                fecha,
+                otraFactura.fecha
+        );
     }
 
     @Override
@@ -327,6 +391,9 @@ public class Factura {
             return Objects.hash(idFactura);
         }
 
-        return Objects.hash(cliente, fecha);
+        return Objects.hash(
+                cliente,
+                fecha
+        );
     }
 }
