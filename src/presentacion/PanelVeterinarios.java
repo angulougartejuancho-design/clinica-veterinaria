@@ -3,9 +3,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package presentacion;
+
 import Negocio.VeterinarioServicio;
 import modelo.Especialidad;
 import modelo.Veterinario;
+import java.awt.FlowLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,11 +36,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Daryelin
  */
-public class PanelVeterinarios  extends JPanel{
+public class PanelVeterinarios extends JPanel {
+
     private final VeterinarioServicio veterinarioServicio;
 
     private JTextField txtId;
@@ -59,20 +63,17 @@ public class PanelVeterinarios  extends JPanel{
 
     private JLabel lblEstado;
 
-
     private List<Veterinario> listaVeterinarios;
-
 
     private int idVeterinarioSeleccionado;
 
-
     public PanelVeterinarios() {
 
-        veterinarioServicio =
-                new VeterinarioServicio();
+        veterinarioServicio
+                = new VeterinarioServicio();
 
-        listaVeterinarios =
-                new ArrayList<>();
+        listaVeterinarios
+                = new ArrayList<>();
 
         idVeterinarioSeleccionado = 0;
 
@@ -80,7 +81,6 @@ public class PanelVeterinarios  extends JPanel{
         configurarEventos();
         cargarVeterinarios();
     }
-
 
     private void inicializarComponentes() {
 
@@ -96,7 +96,7 @@ public class PanelVeterinarios  extends JPanel{
         );
 
         setBackground(
-                new Color(245, 247, 250)
+                new Color(248, 245, 238)
         );
 
         add(
@@ -115,18 +115,17 @@ public class PanelVeterinarios  extends JPanel{
         );
     }
 
-
     private JPanel crearEncabezado() {
 
-        JPanel panelEncabezado =
-                new JPanel(
+        JPanel panelEncabezado
+                = new JPanel(
                         new BorderLayout()
                 );
 
         panelEncabezado.setOpaque(false);
 
-        JLabel lblTitulo =
-                new JLabel(
+        JLabel lblTitulo
+                = new JLabel(
                         "Gestión de Veterinarios"
                 );
 
@@ -142,8 +141,8 @@ public class PanelVeterinarios  extends JPanel{
                 new Color(35, 55, 75)
         );
 
-        JLabel lblDescripcion =
-                new JLabel(
+        JLabel lblDescripcion
+                = new JLabel(
                         "Registre, consulte, actualice y elimine veterinarios"
                 );
 
@@ -172,13 +171,9 @@ public class PanelVeterinarios  extends JPanel{
         return panelEncabezado;
     }
 
-
     private JPanel crearContenidoCentral() {
 
-        JPanel panelContenido =
-                new JPanel(
-                        new BorderLayout(15, 15)
-                );
+        JPanel panelContenido = new JPanel(new BorderLayout(20, 20));
 
         panelContenido.setOpaque(false);
 
@@ -192,249 +187,444 @@ public class PanelVeterinarios  extends JPanel{
                 BorderLayout.CENTER
         );
 
-        return panelContenido;
-    }
-
-
-    private JPanel crearPanelFormulario() {
-
-        JPanel panelFormulario =
-                new JPanel(
-                        new GridBagLayout()
-                );
-
-        panelFormulario.setBackground(
-                Color.WHITE
-        );
-
-        panelFormulario.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(
-                                18,
-                                18,
-                                18,
-                                18
-                        )
+        panelContenido.setBorder(
+                new EmptyBorder(
+                        10,
+                        0,
+                        0,
+                        0
                 )
         );
 
-        GridBagConstraints gbc =
-                new GridBagConstraints();
+        return panelContenido;
+    }
 
-        gbc.insets =
-                new Insets(
-                        7,
-                        7,
-                        7,
-                        7
+    private JPanel crearPanelFormulario() {
+
+        PanelRedondeado tarjeta
+                = new PanelRedondeado(
+                        28,
+                        Color.WHITE
                 );
 
-        gbc.fill =
-                GridBagConstraints.HORIZONTAL;
+        tarjeta.setMostrarSombra(true);
 
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0;
-
-        panelFormulario.add(
-                crearEtiqueta("ID:"),
-                gbc
+        tarjeta.setLayout(
+                new BorderLayout(
+                        25,
+                        15
+                )
         );
 
-        txtId =
-                new JTextField();
+        tarjeta.setBorder(
+                new EmptyBorder(
+                        22,
+                        24,
+                        22,
+                        24
+                )
+        );
+
+        //--------------------------------------------------
+        // ZONA IZQUIERDA: IMAGEN Y TÍTULO
+        //--------------------------------------------------
+        JPanel zonaImagen
+                = new JPanel(
+                        new BorderLayout(
+                                0,
+                                12
+                        )
+                );
+
+        zonaImagen.setOpaque(false);
+
+        zonaImagen.setPreferredSize(
+                new Dimension(
+                        310,
+                        285
+                )
+        );
+
+        JLabel titulo
+                = new JLabel(
+                        "<html>"
+                        + "<div style='font-size:24px; color:#00695C;'>"
+                        + "<b>Registro de Veterinarios</b>"
+                        + "</div>"
+                        + "<br>"
+                        + "<div style='font-size:12px; color:#666666;'>"
+                        + "Administre la información del personal"
+                        + "<br>"
+                        + "médico de la clínica veterinaria."
+                        + "</div>"
+                        + "</html>"
+                );
+
+        PanelImagenURL imagen
+                = new PanelImagenURL(
+                        "https://images.unsplash.com/"
+                        + "photo-1628009368231-7bb7cfcb0def"
+                        + "?auto=format&fit=crop&w=900&q=85"
+                );
+
+        imagen.setPreferredSize(
+                new Dimension(
+                        300,
+                        205
+                )
+        );
+
+        zonaImagen.add(
+                titulo,
+                BorderLayout.NORTH
+        );
+
+        zonaImagen.add(
+                imagen,
+                BorderLayout.CENTER
+        );
+
+        //--------------------------------------------------
+        // ZONA DERECHA: CAMPOS
+        //--------------------------------------------------
+        JPanel panelCampos
+                = new JPanel(
+                        new GridBagLayout()
+                );
+
+        panelCampos.setOpaque(false);
+
+        GridBagConstraints gbc
+                = new GridBagConstraints();
+
+        gbc.insets
+                = new Insets(
+                        10,
+                        10,
+                        10,
+                        10
+                );
+
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        gbc.weightx = 1;
+
+        txtId = new JTextField();
 
         txtId.setEditable(false);
 
         txtId.setBackground(
-                new Color(235, 238, 242)
+                new Color(
+                        238,
+                        241,
+                        240
+                )
         );
 
-        txtId.setPreferredSize(
-                new Dimension(180, 32)
-        );
+        txtNombre = new JTextField();
 
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-
-        panelFormulario.add(
-                txtId,
-                gbc
-        );
-
-
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-
-        panelFormulario.add(
-                crearEtiqueta("Nombre:"),
-                gbc
-        );
-
-        txtNombre =
-                new JTextField();
-
-        txtNombre.setPreferredSize(
-                new Dimension(240, 32)
-        );
-
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-
-        panelFormulario.add(
-                txtNombre,
-                gbc
-        );
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0;
-
-        panelFormulario.add(
-                crearEtiqueta("Especialidad:"),
-                gbc
-        );
-
-        cmbEspecialidad =
-                new JComboBox<>(
+        cmbEspecialidad
+                = new JComboBox<>(
                         Especialidad.values()
                 );
 
-        cmbEspecialidad.setPreferredSize(
-                new Dimension(180, 32)
-        );
-
         cmbEspecialidad.setSelectedIndex(-1);
 
-        gbc.gridx = 1;
-        gbc.weightx = 1;
+        txtTelefono = new JTextField();
+        txtEmail = new JTextField();
 
-        panelFormulario.add(
-                cmbEspecialidad,
-                gbc
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                0,
+                "ID",
+                txtId
+        );
+        
+        txtId.setBackground(
+                new Color(238, 241, 240)
         );
 
-
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-
-        panelFormulario.add(
-                crearEtiqueta("Teléfono:"),
-                gbc
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                1,
+                "Nombre",
+                txtNombre
         );
 
-        txtTelefono =
-                new JTextField();
-
-        txtTelefono.setPreferredSize(
-                new Dimension(240, 32)
+        agregarCampoCombo(
+                panelCampos,
+                gbc,
+                2,
+                "Especialidad",
+                cmbEspecialidad
         );
 
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-
-        panelFormulario.add(
-                txtTelefono,
-                gbc
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                3,
+                "Teléfono",
+                txtTelefono
         );
 
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                4,
+                "Correo",
+                txtEmail
+        );
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
 
-        panelFormulario.add(
-                crearEtiqueta("Correo:"),
-                gbc
-        );
+        gbc.insets
+                = new Insets(
+                        20,
+                        5,
+                        5,
+                        5
+                );
 
-        txtEmail =
-                new JTextField();
-
-        txtEmail.setPreferredSize(
-                new Dimension(180, 32)
-        );
-
-        gbc.gridx = 1;
-        gbc.gridwidth = 3;
-        gbc.weightx = 1;
-
-        panelFormulario.add(
-                txtEmail,
-                gbc
-        );
-
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 4;
-        gbc.weightx = 1;
-        gbc.fill =
-                GridBagConstraints.HORIZONTAL;
-
-        panelFormulario.add(
+        panelCampos.add(
                 crearPanelBotones(),
                 gbc
         );
 
-        return panelFormulario;
+        tarjeta.add(
+                zonaImagen,
+                BorderLayout.WEST
+        );
+
+        tarjeta.add(
+                panelCampos,
+                BorderLayout.CENTER
+        );
+
+        return tarjeta;
     }
 
+    private void agregarCampoTexto(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JTextField campo) {
+
+        JLabel etiqueta = crearEtiqueta(texto);
+
+        campo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        campo.setPreferredSize(
+                new Dimension(330, 40)
+        );
+
+        campo.setCaretColor(
+                new Color(0, 84, 69)
+        );
+
+        campo.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(210, 215, 212)
+                        ),
+                        new EmptyBorder(
+                                8,
+                                12,
+                                8,
+                                12
+                        )
+                )
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+
+        panel.add(etiqueta, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(campo, gbc);
+    }
+
+    private void agregarCampoCombo(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JComboBox<?> combo) {
+
+        JLabel etiqueta = crearEtiqueta(texto);
+
+        combo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        combo.setPreferredSize(
+                new Dimension(330, 40)
+        );
+
+        combo.setBackground(Color.WHITE);
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+
+        panel.add(etiqueta, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(combo, gbc);
+    }
 
     private JLabel crearEtiqueta(
             String texto) {
 
-        JLabel etiqueta =
-                new JLabel(texto);
+        JLabel etiqueta
+                = new JLabel(texto);
 
         etiqueta.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
                         14
                 )
         );
 
         etiqueta.setForeground(
-                new Color(50, 65, 80)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
         return etiqueta;
     }
 
+    private JButton crearBotonColor(
+            String texto,
+            Color color) {
+
+        JButton boton
+                = new JButton(texto);
+
+        boton.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+
+        boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+
+        boton.setCursor(
+                new java.awt.Cursor(
+                        java.awt.Cursor.HAND_CURSOR
+                )
+        );
+
+        boton.setBorder(
+                new EmptyBorder(
+                        10,
+                        18,
+                        10,
+                        18
+                )
+        );
+
+        boton.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mouseEntered(
+                    java.awt.event.MouseEvent evento) {
+
+                if (boton.isEnabled()) {
+                    boton.setBackground(
+                            color.brighter()
+                    );
+                }
+            }
+
+            @Override
+            public void mouseExited(
+                    java.awt.event.MouseEvent evento) {
+
+                boton.setBackground(color);
+            }
+        }
+        );
+
+        return boton;
+    }
 
     private JPanel crearPanelBotones() {
 
-        JPanel panelBotones =
-                new JPanel();
+        JPanel panelBotones
+                = new JPanel(
+                        new FlowLayout(
+                                FlowLayout.LEFT,
+                                12,
+                                0
+                        )
+                );
 
         panelBotones.setOpaque(false);
 
-        btnRegistrar =
-                new JButton("Registrar");
+        btnRegistrar
+                = crearBotonColor(
+                        "Registrar",
+                        new Color(34, 165, 95)
+                );
 
-        btnActualizar =
-                new JButton("Actualizar");
+        btnActualizar
+                = crearBotonColor(
+                        "Actualizar",
+                        new Color(55, 125, 210)
+                );
 
-        btnEliminar =
-                new JButton("Eliminar");
+        btnEliminar
+                = crearBotonColor(
+                        "Eliminar",
+                        new Color(220, 70, 70)
+                );
 
-        btnLimpiar =
-                new JButton("Limpiar");
+        btnLimpiar
+                = crearBotonColor(
+                        "Limpiar",
+                        new Color(230, 145, 35)
+                );
 
-        btnRefrescar =
-                new JButton("Refrescar");
-
-        configurarBoton(btnRegistrar);
-        configurarBoton(btnActualizar);
-        configurarBoton(btnEliminar);
-        configurarBoton(btnLimpiar);
-        configurarBoton(btnRefrescar);
+        btnRefrescar
+                = crearBotonColor(
+                        "Refrescar",
+                        new Color(0, 121, 107)
+                );
 
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
@@ -448,76 +638,55 @@ public class PanelVeterinarios  extends JPanel{
         return panelBotones;
     }
 
-
-    private void configurarBoton(
-            JButton boton) {
-
-        boton.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        13
-                )
-        );
-
-        boton.setFocusPainted(false);
-
-        boton.setPreferredSize(
-                new Dimension(125, 36)
-        );
-
-        boton.setCursor(
-                new java.awt.Cursor(
-                        java.awt.Cursor.HAND_CURSOR
-                )
-        );
-    }
-
-
     private JPanel crearPanelTabla() {
 
-        JPanel panelTabla =
-                new JPanel(
-                        new BorderLayout(10, 10)
+        PanelRedondeado panelTabla
+                = new PanelRedondeado(
+                        26,
+                        Color.WHITE
                 );
 
-        panelTabla.setBackground(
-                Color.WHITE
+        panelTabla.setMostrarSombra(true);
+
+        panelTabla.setLayout(
+                new BorderLayout(
+                        10,
+                        12
+                )
         );
 
         panelTabla.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(
-                                15,
-                                15,
-                                15,
-                                15
-                        )
+                new EmptyBorder(
+                        18,
+                        20,
+                        20,
+                        20
                 )
         );
 
-        JLabel lblTituloTabla =
-                new JLabel(
+        JLabel lblTituloTabla
+                = new JLabel(
                         "Veterinarios registrados"
                 );
 
         lblTituloTabla.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
-                        18
+                        20
                 )
         );
 
         lblTituloTabla.setForeground(
-                new Color(35, 55, 75)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
-        modeloTabla =
-                new DefaultTableModel(
+        modeloTabla
+                = new DefaultTableModel(
                         new Object[]{
                             "ID",
                             "Nombre",
@@ -528,62 +697,133 @@ public class PanelVeterinarios  extends JPanel{
                         0
                 ) {
 
-                    @Override
-                    public boolean isCellEditable(
-                            int fila,
-                            int columna) {
+            @Override
+            public boolean isCellEditable(
+                    int fila,
+                    int columna) {
 
-                        return false;
-                    }
-                };
+                return false;
+            }
+        };
 
-        tablaVeterinarios =
-                new JTable(modeloTabla);
+        tablaVeterinarios
+                = new JTable(modeloTabla);
 
-        tablaVeterinarios.setRowHeight(28);
+        tablaVeterinarios.setRowHeight(36);
 
         tablaVeterinarios.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.PLAIN,
-                        13
+                        14
                 )
         );
-
-        tablaVeterinarios
-                .getTableHeader()
-                .setFont(
-                        new Font(
-                                "Arial",
-                                Font.BOLD,
-                                13
-                        )
-                );
 
         tablaVeterinarios.setSelectionMode(
                 ListSelectionModel.SINGLE_SELECTION
         );
 
-        tablaVeterinarios.setAutoCreateRowSorter(
-                true
-        );
+        tablaVeterinarios.setAutoCreateRowSorter(true);
 
-        tablaVeterinarios.setFillsViewportHeight(
-                true
-        );
+        tablaVeterinarios.setFillsViewportHeight(true);
+
+        tablaVeterinarios.setBackground(Color.WHITE);
 
         tablaVeterinarios.setGridColor(
-                new Color(225, 228, 232)
+                new Color(
+                        235,
+                        235,
+                        235
+                )
         );
 
-        JScrollPane scrollTabla =
-                new JScrollPane(
+        tablaVeterinarios.setShowVerticalLines(false);
+        tablaVeterinarios.setShowHorizontalLines(true);
+
+        tablaVeterinarios.setSelectionBackground(
+                new Color(
+                        214,
+                        245,
+                        233
+                )
+        );
+
+        tablaVeterinarios.setSelectionForeground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
+        );
+
+        tablaVeterinarios.getTableHeader().setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        tablaVeterinarios.getTableHeader().setBackground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
+        );
+
+        tablaVeterinarios.getTableHeader().setForeground(
+                Color.WHITE
+        );
+
+        tablaVeterinarios.getTableHeader()
+                .setPreferredSize(
+                        new Dimension(
+                                0,
+                                40
+                        )
+                );
+
+        tablaVeterinarios.getTableHeader()
+                .setReorderingAllowed(false);
+
+        tablaVeterinarios.getColumnModel()
+                .getColumn(0)
+                .setPreferredWidth(55);
+
+        tablaVeterinarios.getColumnModel()
+                .getColumn(1)
+                .setPreferredWidth(220);
+
+        tablaVeterinarios.getColumnModel()
+                .getColumn(2)
+                .setPreferredWidth(190);
+
+        tablaVeterinarios.getColumnModel()
+                .getColumn(3)
+                .setPreferredWidth(140);
+
+        tablaVeterinarios.getColumnModel()
+                .getColumn(4)
+                .setPreferredWidth(250);
+
+        JScrollPane scrollTabla
+                = new JScrollPane(
                         tablaVeterinarios
                 );
 
-        scrollTabla.setPreferredSize(
-                new Dimension(800, 300)
+        scrollTabla.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(
+                                220,
+                                225,
+                                222
+                        )
+                )
         );
+
+        scrollTabla.getViewport()
+                .setBackground(Color.WHITE);
 
         panelTabla.add(
                 lblTituloTabla,

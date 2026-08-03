@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package presentacion;
-
-
+import javax.swing.ScrollPaneConstants;
 import Exception.ValidationException;
 import Negocio.GestionServicio;
 import modelo.Procedimiento;
@@ -89,52 +88,154 @@ public class PanelServicios extends JPanel {
 
     private void inicializarComponentes() {
 
-        setLayout(new BorderLayout(15, 15));
-        setBorder(new EmptyBorder(20, 20, 20, 20));
-        setBackground(new Color(245, 247, 250));
+        setLayout(
+                new BorderLayout()
+        );
 
-        add(crearEncabezado(), BorderLayout.NORTH);
-        add(crearContenidoCentral(), BorderLayout.CENTER);
-        add(crearPanelEstado(), BorderLayout.SOUTH);
+        setBackground(
+                new Color(248, 245, 238)
+        );
+
+        /*
+     * Panel principal que contendrá todo.
+         */
+        JPanel contenido
+                = new JPanel(
+                        new BorderLayout(
+                                15,
+                                15
+                        )
+                );
+
+        contenido.setBackground(
+                new Color(248, 245, 238)
+        );
+
+        contenido.setBorder(
+                new EmptyBorder(
+                        20,
+                        20,
+                        20,
+                        20
+                )
+        );
+
+        contenido.add(
+                crearEncabezado(),
+                BorderLayout.NORTH
+        );
+
+        contenido.add(
+                crearContenidoCentral(),
+                BorderLayout.CENTER
+        );
+
+        contenido.add(
+                crearPanelEstado(),
+                BorderLayout.SOUTH
+        );
+
+        /*
+     * Scroll general para subir y bajar.
+         */
+        JScrollPane scrollGeneral
+                = new JScrollPane(
+                        contenido
+                );
+
+        scrollGeneral.setBorder(
+                BorderFactory.createEmptyBorder()
+        );
+
+        scrollGeneral.getViewport().setBackground(
+                new Color(248, 245, 238)
+        );
+
+        scrollGeneral.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
+        );
+
+        scrollGeneral.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+
+        /*
+     * Velocidad de desplazamiento.
+         */
+        scrollGeneral.getVerticalScrollBar()
+                .setUnitIncrement(18);
+
+        add(
+                scrollGeneral,
+                BorderLayout.CENTER
+        );
     }
 
     private JPanel crearEncabezado() {
 
-        JPanel panel = new JPanel(new BorderLayout());
+        JPanel panel
+                = new JPanel(
+                        new BorderLayout()
+                );
+
         panel.setOpaque(false);
 
-        JLabel lblTitulo =
-                new JLabel("Catálogo de Servicios");
+        JLabel lblTitulo
+                = new JLabel(
+                        "Catálogo de Servicios"
+                );
 
         lblTitulo.setFont(
-                new Font("Arial", Font.BOLD, 26)
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        27
+                )
         );
 
-        lblTitulo.setForeground(new Color(35, 55, 75));
-
-        JLabel lblDescripcion = new JLabel(
-                "Administre consultas generales, "
-                        + "vacunaciones y procedimientos"
+        lblTitulo.setForeground(
+                new Color(0, 84, 69)
         );
+
+        JLabel lblDescripcion
+                = new JLabel(
+                        "Administre consultas generales, vacunaciones y procedimientos."
+                );
 
         lblDescripcion.setFont(
-                new Font("Arial", Font.PLAIN, 14)
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
         );
 
         lblDescripcion.setForeground(
-                new Color(90, 105, 120)
+                new Color(95, 105, 100)
         );
 
-        panel.add(lblTitulo, BorderLayout.NORTH);
-        panel.add(lblDescripcion, BorderLayout.SOUTH);
+        panel.add(
+                lblTitulo,
+                BorderLayout.NORTH
+        );
+
+        panel.add(
+                lblDescripcion,
+                BorderLayout.SOUTH
+        );
 
         return panel;
     }
 
     private JPanel crearContenidoCentral() {
 
-        JPanel panel =
-                new JPanel(new BorderLayout(15, 15));
+        JPanel panel
+                = new JPanel(
+                        new BorderLayout(
+                                18,
+                                18
+                        )
+                );
 
         panel.setOpaque(false);
 
@@ -143,116 +244,356 @@ public class PanelServicios extends JPanel {
                 BorderLayout.NORTH
         );
 
-        panel.add(crearPanelTabla(), BorderLayout.CENTER);
+        panel.add(
+                crearPanelTabla(),
+                BorderLayout.CENTER
+        );
 
         return panel;
     }
 
     private JPanel crearPanelFormulario() {
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Color.WHITE);
+        PanelRedondeado tarjeta
+                = new PanelRedondeado(
+                        28,
+                        Color.WHITE
+                );
 
-        panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(15, 15, 15, 15)
+        tarjeta.setMostrarSombra(true);
+
+        tarjeta.setLayout(
+                new BorderLayout(
+                        24,
+                        15
                 )
         );
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(6, 6, 6, 6);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        tarjeta.setBorder(
+                new EmptyBorder(
+                        20,
+                        22,
+                        20,
+                        22
+                )
+        );
 
-        
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("ID:"), gbc);
+        //--------------------------------------------------
+        // ZONA IZQUIERDA
+        //--------------------------------------------------
+        JPanel zonaImagen
+                = new JPanel(
+                        new BorderLayout(
+                                0,
+                                12
+                        )
+                );
+
+        zonaImagen.setOpaque(false);
+
+        zonaImagen.setPreferredSize(
+                new Dimension(
+                        300,
+                        300
+                )
+        );
+
+        JLabel titulo
+                = new JLabel(
+                        "<html>"
+                        + "<div style='font-size:24px; color:#00695C;'>"
+                        + "<b>Servicios Veterinarios</b>"
+                        + "</div>"
+                        + "<br>"
+                        + "<div style='font-size:12px; color:#666666;'>"
+                        + "Registre consultas, vacunaciones"
+                        + "<br>"
+                        + "y procedimientos médicos."
+                        + "</div>"
+                        + "</html>"
+                );
+
+        PanelImagenURL imagen
+                = new PanelImagenURL(
+                        "https://images.unsplash.com/"
+                        + "photo-1583337130417-3346a1be7dee"
+                        + "?auto=format&fit=crop&w=900&q=85"
+                );
+
+        imagen.setPreferredSize(
+                new Dimension(
+                        290,
+                        215
+                )
+        );
+
+        zonaImagen.add(
+                titulo,
+                BorderLayout.NORTH
+        );
+
+        zonaImagen.add(
+                imagen,
+                BorderLayout.CENTER
+        );
+
+        //--------------------------------------------------
+        // ZONA DERECHA
+        //--------------------------------------------------
+        JPanel panelCampos
+                = new JPanel(
+                        new GridBagLayout()
+                );
+
+        panelCampos.setOpaque(false);
+
+        GridBagConstraints gbc
+                = new GridBagConstraints();
+
+        gbc.insets
+                = new Insets(
+                        8,
+                        8,
+                        8,
+                        8
+                );
+
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        gbc.weightx = 1;
 
         txtId = new JTextField();
         txtId.setEditable(false);
-        txtId.setBackground(new Color(235, 238, 242));
 
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-        panel.add(txtId, gbc);
-
-      
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Tipo:"), gbc);
-
-        cmbTipo = new JComboBox<>(TipoServicio.values());
-
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-        panel.add(cmbTipo, gbc);
-
-        
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Nombre:"), gbc);
+        cmbTipo
+                = new JComboBox<>(
+                        TipoServicio.values()
+                );
 
         txtNombre = new JTextField();
-
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-        panel.add(txtNombre, gbc);
-
-        
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Costo base (₡):"), gbc);
-
         txtCostoBase = new JTextField();
-
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-        panel.add(txtCostoBase, gbc);
-
-        
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Descripción:"), gbc);
-
         txtDescripcion = new JTextField();
+        txtDetalle = new JTextField();
 
-        gbc.gridx = 1;
-        gbc.gridwidth = 3;
-        gbc.weightx = 1;
-        panel.add(txtDescripcion, gbc);
+        lblEtiquetaDetalle
+                = crearEtiqueta(
+                        "Tipo de vacuna"
+                );
 
-        
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                0,
+                "ID",
+                txtId
+        );
+
+        txtId.setBackground(
+                new Color(238, 241, 240)
+        );
+
+        agregarCampoCombo(
+                panelCampos,
+                gbc,
+                1,
+                "Tipo",
+                cmbTipo
+        );
+
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                2,
+                "Nombre",
+                txtNombre
+        );
+
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                3,
+                "Costo base (₡)",
+                txtCostoBase
+        );
+
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                4,
+                "Descripción",
+                txtDescripcion
+        );
+
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 5;
         gbc.gridwidth = 1;
         gbc.weightx = 0;
 
-        lblEtiquetaDetalle =
-                crearEtiqueta("Tipo de vacuna:");
+        panelCampos.add(
+                lblEtiquetaDetalle,
+                gbc
+        );
 
-        panel.add(lblEtiquetaDetalle, gbc);
-
-        txtDetalle = new JTextField();
+        configurarCampoTexto(
+                txtDetalle
+        );
 
         gbc.gridx = 1;
-        gbc.gridwidth = 3;
         gbc.weightx = 1;
-        panel.add(txtDetalle, gbc);
 
-   
+        panelCampos.add(
+                txtDetalle,
+                gbc
+        );
+
         gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 4;
+        gbc.gridy = 6;
+        gbc.gridwidth = 2;
         gbc.weightx = 1;
-        panel.add(crearPanelBotones(), gbc);
 
-        return panel;
+        gbc.insets
+                = new Insets(
+                        18,
+                        5,
+                        5,
+                        5
+                );
+
+        panelCampos.add(
+                crearPanelBotones(),
+                gbc
+        );
+
+        tarjeta.add(
+                zonaImagen,
+                BorderLayout.WEST
+        );
+
+        tarjeta.add(
+                panelCampos,
+                BorderLayout.CENTER
+        );
+
+        return tarjeta;
+    }
+
+    private void configurarCampoTexto(
+            JTextField campo) {
+
+        campo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        campo.setPreferredSize(
+                new Dimension(
+                        330,
+                        38
+                )
+        );
+
+        campo.setCaretColor(
+                new Color(0, 84, 69)
+        );
+
+        campo.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(210, 215, 212)
+                        ),
+                        new EmptyBorder(
+                                7,
+                                11,
+                                7,
+                                11
+                        )
+                )
+        );
+    }
+
+    private void agregarCampoTexto(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JTextField campo) {
+
+        JLabel etiqueta
+                = crearEtiqueta(texto);
+
+        configurarCampoTexto(campo);
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        panel.add(
+                etiqueta,
+                gbc
+        );
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(
+                campo,
+                gbc
+        );
+    }
+
+    private void agregarCampoCombo(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JComboBox<?> combo) {
+
+        JLabel etiqueta
+                = crearEtiqueta(texto);
+
+        combo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        combo.setPreferredSize(
+                new Dimension(
+                        330,
+                        38
+                )
+        );
+
+        combo.setBackground(Color.WHITE);
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        panel.add(
+                etiqueta,
+                gbc
+        );
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(
+                combo,
+                gbc
+        );
     }
 
     private JLabel crearEtiqueta(String texto) {
@@ -310,8 +651,8 @@ public class PanelServicios extends JPanel {
 
     private JPanel crearPanelTabla() {
 
-        JPanel panel =
-                new JPanel(new BorderLayout(10, 10));
+        JPanel panel
+                = new JPanel(new BorderLayout(10, 10));
 
         panel.setBackground(Color.WHITE);
 
@@ -324,8 +665,8 @@ public class PanelServicios extends JPanel {
                 )
         );
 
-        JLabel lblTituloTabla =
-                new JLabel("Servicios registrados");
+        JLabel lblTituloTabla
+                = new JLabel("Servicios registrados");
 
         lblTituloTabla.setFont(
                 new Font("Arial", Font.BOLD, 18)
@@ -378,8 +719,8 @@ public class PanelServicios extends JPanel {
                 new Color(225, 228, 232)
         );
 
-        JScrollPane scrollTabla =
-                new JScrollPane(tablaServicios);
+        JScrollPane scrollTabla
+                = new JScrollPane(tablaServicios);
 
         scrollTabla.setPreferredSize(
                 new Dimension(800, 260)
@@ -460,8 +801,8 @@ public class PanelServicios extends JPanel {
 
     private void actualizarEtiquetaDetalle() {
 
-        TipoServicio tipo =
-                (TipoServicio) cmbTipo.getSelectedItem();
+        TipoServicio tipo
+                = (TipoServicio) cmbTipo.getSelectedItem();
 
         if (tipo == null) {
             return;
@@ -490,8 +831,8 @@ public class PanelServicios extends JPanel {
 
         try {
 
-            Servicio servicio =
-                    crearServicioDesdeFormulario();
+            Servicio servicio
+                    = crearServicioDesdeFormulario();
 
             gestionServicios.registrar(servicio);
 
@@ -516,7 +857,7 @@ public class PanelServicios extends JPanel {
             mostrarAdvertencia(
                     ex instanceof NumberFormatException
                             ? "El costo base y la duración "
-                                    + "deben ser numéricos."
+                            + "deben ser numéricos."
                             : ex.getMessage()
             );
 
@@ -535,7 +876,7 @@ public class PanelServicios extends JPanel {
 
             mostrarAdvertencia(
                     "Debe seleccionar un servicio "
-                            + "de la tabla."
+                    + "de la tabla."
             );
 
             return;
@@ -543,13 +884,13 @@ public class PanelServicios extends JPanel {
 
         try {
 
-            Servicio servicio =
-                    crearServicioDesdeFormulario();
+            Servicio servicio
+                    = crearServicioDesdeFormulario();
 
             servicio.setId(idServicioSeleccionado);
 
-            boolean actualizado =
-                    gestionServicios.actualizar(servicio);
+            boolean actualizado
+                    = gestionServicios.actualizar(servicio);
 
             if (actualizado) {
 
@@ -572,7 +913,7 @@ public class PanelServicios extends JPanel {
 
                 mostrarAdvertencia(
                         "No se encontró el servicio "
-                                + "que se desea actualizar."
+                        + "que se desea actualizar."
                 );
             }
 
@@ -582,7 +923,7 @@ public class PanelServicios extends JPanel {
             mostrarAdvertencia(
                     ex instanceof NumberFormatException
                             ? "El costo base y la duración "
-                                    + "deben ser numéricos."
+                            + "deben ser numéricos."
                             : ex.getMessage()
             );
 
@@ -601,7 +942,7 @@ public class PanelServicios extends JPanel {
 
             mostrarAdvertencia(
                     "Debe seleccionar un servicio "
-                            + "de la tabla."
+                    + "de la tabla."
             );
 
             return;
@@ -610,7 +951,7 @@ public class PanelServicios extends JPanel {
         int respuesta = JOptionPane.showConfirmDialog(
                 this,
                 "¿Está seguro de eliminar el servicio "
-                        + "seleccionado?",
+                + "seleccionado?",
                 "Confirmar eliminación",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
@@ -647,7 +988,7 @@ public class PanelServicios extends JPanel {
 
                 mostrarAdvertencia(
                         "No se encontró el servicio "
-                                + "que se desea eliminar."
+                        + "que se desea eliminar."
                 );
             }
 
@@ -662,15 +1003,15 @@ public class PanelServicios extends JPanel {
                 JOptionPane.showMessageDialog(
                         this,
                         "No se puede eliminar este servicio "
-                                + "porque está incluido en "
-                                + "una factura.",
+                        + "porque está incluido en "
+                        + "una factura.",
                         "Eliminación no permitida",
                         JOptionPane.WARNING_MESSAGE
                 );
 
                 mostrarEstado(
                         "El servicio está relacionado "
-                                + "con una factura.",
+                        + "con una factura.",
                         true
                 );
 
@@ -687,12 +1028,12 @@ public class PanelServicios extends JPanel {
     private Servicio crearServicioDesdeFormulario()
             throws ValidationException {
 
-        TipoServicio tipo =
-                (TipoServicio) cmbTipo.getSelectedItem();
+        TipoServicio tipo
+                = (TipoServicio) cmbTipo.getSelectedItem();
 
         String nombre = txtNombre.getText().trim();
-        String descripcion =
-                txtDescripcion.getText().trim();
+        String descripcion
+                = txtDescripcion.getText().trim();
 
         double costoBase = Double.parseDouble(
                 txtCostoBase.getText().trim()
@@ -704,26 +1045,26 @@ public class PanelServicios extends JPanel {
 
             case VACUNACION ->
                 gestionServicios.crearVacunacion(
-                        nombre,
-                        descripcion,
-                        costoBase,
-                        detalle
+                nombre,
+                descripcion,
+                costoBase,
+                detalle
                 );
 
             case PROCEDIMIENTO ->
                 gestionServicios.crearProcedimiento(
-                        nombre,
-                        descripcion,
-                        costoBase,
-                        Integer.parseInt(detalle)
+                nombre,
+                descripcion,
+                costoBase,
+                Integer.parseInt(detalle)
                 );
 
             case CONSULTA_GENERAL ->
                 gestionServicios.crearConsultaGeneral(
-                        nombre,
-                        descripcion,
-                        costoBase,
-                        detalle
+                nombre,
+                descripcion,
+                costoBase,
+                detalle
                 );
         };
     }
@@ -757,11 +1098,11 @@ public class PanelServicios extends JPanel {
 
             mostrarEstado(
                     "Servicios cargados: "
-                            + listaServicios.size()
-                            + " (total en memoria: "
-                            + Servicio
-                                    .getTotalServiciosCreados()
-                            + ")",
+                    + listaServicios.size()
+                    + " (total en memoria: "
+                    + Servicio
+                            .getTotalServiciosCreados()
+                    + ")",
                     false
             );
 
@@ -778,15 +1119,15 @@ public class PanelServicios extends JPanel {
 
     private void seleccionarServicio() {
 
-        int filaVista =
-                tablaServicios.getSelectedRow();
+        int filaVista
+                = tablaServicios.getSelectedRow();
 
         if (filaVista < 0) {
             return;
         }
 
-        int filaModelo =
-                tablaServicios.convertRowIndexToModel(
+        int filaModelo
+                = tablaServicios.convertRowIndexToModel(
                         filaVista
                 );
 
@@ -824,8 +1165,7 @@ public class PanelServicios extends JPanel {
                     vacunacion.getTipoVacuna()
             );
 
-        } else if (servicio
-                instanceof Procedimiento procedimiento) {
+        } else if (servicio instanceof Procedimiento procedimiento) {
 
             txtDetalle.setText(
                     String.valueOf(
@@ -845,7 +1185,7 @@ public class PanelServicios extends JPanel {
 
         mostrarEstado(
                 "Servicio seleccionado: "
-                        + servicio.getNombre(),
+                + servicio.getNombre(),
                 false
         );
     }
@@ -883,7 +1223,7 @@ public class PanelServicios extends JPanel {
 
         mostrarEstado(
                 "Formulario preparado para un "
-                        + "nuevo servicio.",
+                + "nuevo servicio.",
                 false
         );
     }
@@ -907,7 +1247,7 @@ public class PanelServicios extends JPanel {
         )
                 || mensajeMinuscula.contains(
                         "cannot delete or update a "
-                                + "parent row"
+                        + "parent row"
                 );
     }
 

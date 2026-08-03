@@ -85,11 +85,11 @@ public class PanelCitas  extends JPanel{
     private List<Cita> listaCitas;
     private int idCitaSeleccionada;
 
-    private static final DateTimeFormatter FORMATO_FECHA =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter FORMATO_FECHA
+            = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    private static final DateTimeFormatter FORMATO_HORA =
-            DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter FORMATO_HORA
+            = DateTimeFormatter.ofPattern("HH:mm");
 
     public PanelCitas() {
 
@@ -103,8 +103,8 @@ public class PanelCitas  extends JPanel{
         configurarEventos();
         cargarCombos();
         cargarCitas();
+        limpiarFormulario();
     }
-
 
     private void inicializarComponentes() {
 
@@ -120,7 +120,7 @@ public class PanelCitas  extends JPanel{
         );
 
         setBackground(
-                new Color(245, 247, 250)
+                new Color(248, 245, 238)
         );
 
         add(
@@ -139,48 +139,55 @@ public class PanelCitas  extends JPanel{
         );
     }
 
-
     private JPanel crearEncabezado() {
 
-        JPanel panel =
-                new JPanel(
+        JPanel panel
+                = new JPanel(
                         new BorderLayout()
                 );
 
         panel.setOpaque(false);
 
-        JLabel lblTitulo =
-                new JLabel(
+        JLabel lblTitulo
+                = new JLabel(
                         "Gestión de Citas"
                 );
 
         lblTitulo.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
-                        26
+                        27
                 )
         );
 
         lblTitulo.setForeground(
-                new Color(35, 55, 75)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
-        JLabel lblDescripcion =
-                new JLabel(
-                        "Programe y administre las citas veterinarias"
+        JLabel lblDescripcion
+                = new JLabel(
+                        "Programe y administre las citas veterinarias."
                 );
 
         lblDescripcion.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.PLAIN,
                         14
                 )
         );
 
         lblDescripcion.setForeground(
-                new Color(90, 105, 120)
+                new Color(
+                        95,
+                        105,
+                        100
+                )
         );
 
         panel.add(
@@ -196,12 +203,136 @@ public class PanelCitas  extends JPanel{
         return panel;
     }
 
+    private void agregarCampoTexto(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JTextField campo) {
+
+        JLabel etiqueta
+                = crearEtiqueta(texto);
+
+        campo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        campo.setPreferredSize(
+                new Dimension(
+                        320,
+                        38
+                )
+        );
+
+        campo.setCaretColor(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
+        );
+
+        campo.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(
+                                        210,
+                                        215,
+                                        212
+                                )
+                        ),
+                        new EmptyBorder(
+                                7,
+                                11,
+                                7,
+                                11
+                        )
+                )
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        panel.add(
+                etiqueta,
+                gbc
+        );
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(
+                campo,
+                gbc
+        );
+    }
+
+    private void agregarCampoCombo(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JComboBox<?> combo) {
+
+        JLabel etiqueta
+                = crearEtiqueta(texto);
+
+        combo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        combo.setPreferredSize(
+                new Dimension(
+                        320,
+                        38
+                )
+        );
+
+        combo.setBackground(
+                Color.WHITE
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        panel.add(
+                etiqueta,
+                gbc
+        );
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(
+                combo,
+                gbc
+        );
+    }
 
     private JPanel crearContenidoCentral() {
 
-        JPanel panel =
-                new JPanel(
-                        new BorderLayout(15, 15)
+        JPanel panel
+                = new JPanel(
+                        new BorderLayout(
+                                18,
+                                18
+                        )
                 );
 
         panel.setOpaque(false);
@@ -219,119 +350,337 @@ public class PanelCitas  extends JPanel{
         return panel;
     }
 
+    private JPanel crearPanelTabla() {
 
-    private JPanel crearPanelFormulario() {
-
-        JPanel panel =
-                new JPanel(
-                        new GridBagLayout()
+        PanelRedondeado panel
+                = new PanelRedondeado(
+                        26,
+                        Color.WHITE
                 );
 
-        panel.setBackground(Color.WHITE);
+        panel.setMostrarSombra(true);
+
+        panel.setLayout(
+                new BorderLayout(
+                        10,
+                        12
+                )
+        );
 
         panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(
-                                15,
-                                15,
-                                15,
-                                15
+                new EmptyBorder(
+                        18,
+                        20,
+                        20,
+                        20
+                )
+        );
+
+        JLabel lblTitulo
+                = new JLabel(
+                        "Citas registradas"
+                );
+
+        lblTitulo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        20
+                )
+        );
+
+        lblTitulo.setForeground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
+        );
+
+        modeloTabla
+                = new DefaultTableModel(
+                        new Object[]{
+                            "ID",
+                            "Mascota",
+                            "Veterinario",
+                            "Fecha",
+                            "Hora",
+                            "Motivo",
+                            "Estado"
+                        },
+                        0
+                ) {
+
+            @Override
+            public boolean isCellEditable(
+                    int fila,
+                    int columna) {
+
+                return false;
+            }
+        };
+
+        tablaCitas
+                = new JTable(modeloTabla);
+
+        tablaCitas.setRowHeight(36);
+
+        tablaCitas.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        tablaCitas.setSelectionMode(
+                ListSelectionModel.SINGLE_SELECTION
+        );
+
+        tablaCitas.setAutoCreateRowSorter(true);
+        tablaCitas.setFillsViewportHeight(true);
+
+        tablaCitas.setBackground(Color.WHITE);
+
+        tablaCitas.setGridColor(
+                new Color(
+                        235,
+                        235,
+                        235
+                )
+        );
+
+        tablaCitas.setShowVerticalLines(false);
+        tablaCitas.setShowHorizontalLines(true);
+
+        tablaCitas.setSelectionBackground(
+                new Color(
+                        214,
+                        245,
+                        233
+                )
+        );
+
+        tablaCitas.setSelectionForeground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
+        );
+
+        tablaCitas.getTableHeader().setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        tablaCitas.getTableHeader().setBackground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
+        );
+
+        tablaCitas.getTableHeader().setForeground(
+                Color.WHITE
+        );
+
+        tablaCitas.getTableHeader()
+                .setPreferredSize(
+                        new Dimension(
+                                0,
+                                40
+                        )
+                );
+
+        tablaCitas.getTableHeader()
+                .setReorderingAllowed(false);
+
+        tablaCitas.getColumnModel()
+                .getColumn(0)
+                .setPreferredWidth(45);
+
+        tablaCitas.getColumnModel()
+                .getColumn(1)
+                .setPreferredWidth(130);
+
+        tablaCitas.getColumnModel()
+                .getColumn(2)
+                .setPreferredWidth(180);
+
+        tablaCitas.getColumnModel()
+                .getColumn(3)
+                .setPreferredWidth(100);
+
+        tablaCitas.getColumnModel()
+                .getColumn(4)
+                .setPreferredWidth(80);
+
+        tablaCitas.getColumnModel()
+                .getColumn(5)
+                .setPreferredWidth(260);
+
+        tablaCitas.getColumnModel()
+                .getColumn(6)
+                .setPreferredWidth(110);
+
+        JScrollPane scroll
+                = new JScrollPane(
+                        tablaCitas
+                );
+
+        scroll.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(
+                                220,
+                                225,
+                                222
                         )
                 )
         );
 
-        GridBagConstraints gbc =
-                new GridBagConstraints();
-
-        gbc.insets =
-                new Insets(
-                        6,
-                        6,
-                        6,
-                        6
-                );
-
-        gbc.fill =
-                GridBagConstraints.HORIZONTAL;
-
-        /*
-         * ID.
-         */
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0;
+        scroll.getViewport()
+                .setBackground(Color.WHITE);
 
         panel.add(
-                crearEtiqueta("ID:"),
-                gbc
+                lblTitulo,
+                BorderLayout.NORTH
         );
+
+        panel.add(
+                scroll,
+                BorderLayout.CENTER
+        );
+
+        return panel;
+    }
+    
+    private JPanel crearPanelFormulario() {
+
+        PanelRedondeado tarjeta
+                = new PanelRedondeado(
+                        28,
+                        Color.WHITE
+                );
+
+        tarjeta.setMostrarSombra(true);
+
+        tarjeta.setLayout(
+                new BorderLayout(
+                        24,
+                        15
+                )
+        );
+
+        tarjeta.setBorder(
+                new EmptyBorder(
+                        20,
+                        22,
+                        20,
+                        22
+                )
+        );
+
+        //--------------------------------------------------
+        // ZONA IZQUIERDA: IMAGEN Y TÍTULO
+        //--------------------------------------------------
+        JPanel zonaImagen
+                = new JPanel(
+                        new BorderLayout(
+                                0,
+                                12
+                        )
+                );
+
+        zonaImagen.setOpaque(false);
+
+        zonaImagen.setPreferredSize(
+                new Dimension(
+                        300,
+                        290
+                )
+        );
+
+        JLabel titulo
+                = new JLabel(
+                        "<html>"
+                        + "<div style='font-size:24px; color:#00695C;'>"
+                        + "<b>Programar Cita</b>"
+                        + "</div>"
+                        + "<br>"
+                        + "<div style='font-size:12px; color:#666666;'>"
+                        + "Seleccione la mascota, el veterinario"
+                        + "<br>"
+                        + "y la fecha de atención."
+                        + "</div>"
+                        + "</html>"
+                );
+
+        PanelImagenURL imagen
+                = new PanelImagenURL(
+                        "https://images.unsplash.com/"
+                        + "photo-1576201836106-db1758fd1c97"
+                        + "?auto=format&fit=crop&w=900&q=85"
+                );
+
+        imagen.setPreferredSize(
+                new Dimension(
+                        290,
+                        210
+                )
+        );
+
+        zonaImagen.add(
+                titulo,
+                BorderLayout.NORTH
+        );
+
+        zonaImagen.add(
+                imagen,
+                BorderLayout.CENTER
+        );
+
+        //--------------------------------------------------
+        // ZONA DERECHA: CAMPOS
+        //--------------------------------------------------
+        JPanel panelCampos
+                = new JPanel(
+                        new GridBagLayout()
+                );
+
+        panelCampos.setOpaque(false);
+
+        GridBagConstraints gbc
+                = new GridBagConstraints();
+
+        gbc.insets
+                = new Insets(
+                        8,
+                        8,
+                        8,
+                        8
+                );
+
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        gbc.weightx = 1;
 
         txtId = new JTextField();
         txtId.setEditable(false);
         txtId.setBackground(
-                new Color(235, 238, 242)
+                new Color(238, 241, 240)
         );
 
-        gbc.gridx = 1;
-        gbc.weightx = 1;
+        cmbMascota = new JComboBox<>();
+        cmbVeterinario = new JComboBox<>();
 
-        panel.add(txtId, gbc);
-
-        /*
-         * Mascota.
-         */
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Mascota:"),
-                gbc
-        );
-
-        cmbMascota =
-                new JComboBox<>();
-
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-
-        panel.add(cmbMascota, gbc);
-
-        /*
-         * Veterinario.
-         */
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Veterinario:"),
-                gbc
-        );
-
-        cmbVeterinario =
-                new JComboBox<>();
-
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-
-        panel.add(cmbVeterinario, gbc);
-
-        /*
-         * Estado.
-         */
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Estado:"),
-                gbc
-        );
-
-        cmbEstado =
-                new JComboBox<>(
+        cmbEstado
+                = new JComboBox<>(
                         EstadoCita.values()
                 );
 
@@ -339,187 +688,315 @@ public class PanelCitas  extends JPanel{
                 EstadoCita.PROGRAMADA
         );
 
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-
-        panel.add(cmbEstado, gbc);
-
-        /*
-         * Fecha.
-         */
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Fecha:"),
-                gbc
-        );
-
-        txtFecha =
-                new JTextField();
-
-        txtFecha.setToolTipText(
-                "Formato: año-mes-día. Ejemplo: 2026-08-15"
-        );
+        txtFecha = new JTextField();
 
         txtFecha.setText(
                 LocalDate.now()
                         .format(FORMATO_FECHA)
         );
 
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-
-        panel.add(txtFecha, gbc);
-
-        /*
-         * Hora.
-         */
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Hora:"),
-                gbc
+        txtFecha.setToolTipText(
+                "Formato: año-mes-día. Ejemplo: 2026-08-15"
         );
 
-        txtHora =
-                new JTextField();
+        txtHora = new JTextField("08:00");
 
         txtHora.setToolTipText(
                 "Formato de 24 horas. Ejemplo: 14:30"
         );
 
-        txtHora.setText("08:00");
-
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-
-        panel.add(txtHora, gbc);
-
-        /*
-         * Motivo.
-         */
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.weightx = 0;
-        gbc.anchor =
-                GridBagConstraints.NORTH;
-
-        panel.add(
-                crearEtiqueta("Motivo:"),
-                gbc
-        );
-
-        txtMotivo =
-                new JTextArea(3, 30);
+        txtMotivo
+                = new JTextArea(
+                        3,
+                        30
+                );
 
         txtMotivo.setLineWrap(true);
         txtMotivo.setWrapStyleWord(true);
 
         txtMotivo.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.PLAIN,
-                        13
+                        14
                 )
         );
 
-        JScrollPane scrollMotivo =
-                new JScrollPane(txtMotivo);
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                0,
+                "ID",
+                txtId
+        );
+
+        txtId.setBackground(
+                new Color(238, 241, 240)
+        );
+
+        agregarCampoCombo(
+                panelCampos,
+                gbc,
+                1,
+                "Mascota",
+                cmbMascota
+        );
+
+        agregarCampoCombo(
+                panelCampos,
+                gbc,
+                2,
+                "Veterinario",
+                cmbVeterinario
+        );
+
+        agregarCampoCombo(
+                panelCampos,
+                gbc,
+                3,
+                "Estado",
+                cmbEstado
+        );
+
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                4,
+                "Fecha",
+                txtFecha
+        );
+
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                5,
+                "Hora",
+                txtHora
+        );
+
+        JLabel lblMotivo
+                = crearEtiqueta(
+                        "Motivo"
+                );
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.anchor
+                = GridBagConstraints.NORTH;
+
+        panelCampos.add(
+                lblMotivo,
+                gbc
+        );
+
+        JScrollPane scrollMotivo
+                = new JScrollPane(
+                        txtMotivo
+                );
+
+        scrollMotivo.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(
+                                210,
+                                215,
+                                212
+                        )
+                )
+        );
 
         gbc.gridx = 1;
-        gbc.gridwidth = 3;
+        gbc.gridy = 6;
+        gbc.gridwidth = 1;
         gbc.weightx = 1;
-        gbc.fill =
-                GridBagConstraints.BOTH;
+        gbc.fill
+                = GridBagConstraints.BOTH;
 
-        panel.add(
+        panelCampos.add(
                 scrollMotivo,
                 gbc
         );
 
-        /*
-         * Botones.
-         */
         gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 4;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
         gbc.weightx = 1;
-        gbc.fill =
-                GridBagConstraints.HORIZONTAL;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+        gbc.insets
+                = new Insets(
+                        16,
+                        5,
+                        5,
+                        5
+                );
 
-        panel.add(
+        panelCampos.add(
                 crearPanelBotones(),
                 gbc
         );
 
-        return panel;
-    }
+        tarjeta.add(
+                zonaImagen,
+                BorderLayout.WEST
+        );
 
+        tarjeta.add(
+                panelCampos,
+                BorderLayout.CENTER
+        );
+
+        return tarjeta;
+    }
 
     private JLabel crearEtiqueta(
             String texto) {
 
-        JLabel etiqueta =
-                new JLabel(texto);
+        JLabel etiqueta
+                = new JLabel(texto);
 
         etiqueta.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
                         14
                 )
         );
 
         etiqueta.setForeground(
-                new Color(50, 65, 80)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
         return etiqueta;
     }
 
+    private JButton crearBotonColor(
+            String texto,
+            Color color) {
+
+        JButton boton
+                = new JButton(texto);
+
+        boton.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        12
+                )
+        );
+
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+
+        boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+
+        boton.setCursor(
+                new Cursor(
+                        Cursor.HAND_CURSOR
+                )
+        );
+
+        boton.setBorder(
+                new EmptyBorder(
+                        9,
+                        14,
+                        9,
+                        14
+                )
+        );
+
+        boton.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mouseEntered(
+                    java.awt.event.MouseEvent evento) {
+
+                if (boton.isEnabled()) {
+                    boton.setBackground(
+                            color.brighter()
+                    );
+                }
+            }
+
+            @Override
+            public void mouseExited(
+                    java.awt.event.MouseEvent evento) {
+
+                boton.setBackground(color);
+            }
+        }
+        );
+
+        return boton;
+    }
 
     private JPanel crearPanelBotones() {
 
-        JPanel panel =
-                new JPanel();
+        JPanel panel
+                = new JPanel(
+                        new java.awt.FlowLayout(
+                                java.awt.FlowLayout.LEFT,
+                                10,
+                                0
+                        )
+                );
 
         panel.setOpaque(false);
 
-        btnRegistrar =
-                new JButton("Registrar");
+        btnRegistrar
+                = crearBotonColor(
+                        "Registrar",
+                        new Color(34, 165, 95)
+                );
 
-        btnActualizar =
-                new JButton("Actualizar");
+        btnActualizar
+                = crearBotonColor(
+                        "Actualizar",
+                        new Color(55, 125, 210)
+                );
 
-        btnConfirmar =
-                new JButton("Confirmar");
+        btnConfirmar
+                = crearBotonColor(
+                        "Confirmar",
+                        new Color(96, 91, 190)
+                );
 
-        btnCancelar =
-                new JButton("Cancelar");
+        btnCancelar
+                = crearBotonColor(
+                        "Cancelar",
+                        new Color(225, 135, 40)
+                );
 
-        btnCompletar =
-                new JButton("Completar");
+        btnCompletar
+                = crearBotonColor(
+                        "Completar",
+                        new Color(0, 145, 120)
+                );
 
-        btnEliminar =
-                new JButton("Eliminar");
+        btnEliminar
+                = crearBotonColor(
+                        "Eliminar",
+                        new Color(220, 70, 70)
+                );
 
-        btnLimpiar =
-                new JButton("Limpiar");
+        btnLimpiar
+                = crearBotonColor(
+                        "Limpiar",
+                        new Color(185, 135, 40)
+                );
 
-        btnRefrescar =
-                new JButton("Refrescar");
-
-        configurarBoton(btnRegistrar);
-        configurarBoton(btnActualizar);
-        configurarBoton(btnConfirmar);
-        configurarBoton(btnCancelar);
-        configurarBoton(btnCompletar);
-        configurarBoton(btnEliminar);
-        configurarBoton(btnLimpiar);
-        configurarBoton(btnRefrescar);
+        btnRefrescar
+                = crearBotonColor(
+                        "Refrescar",
+                        new Color(0, 110, 95)
+                );
 
         btnActualizar.setEnabled(false);
         btnConfirmar.setEnabled(false);
@@ -539,148 +1016,7 @@ public class PanelCitas  extends JPanel{
         return panel;
     }
 
-
-    private void configurarBoton(
-            JButton boton) {
-
-        boton.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        12
-                )
-        );
-
-        boton.setFocusPainted(false);
-
-        boton.setPreferredSize(
-                new Dimension(105, 34)
-        );
-
-        boton.setCursor(
-                new Cursor(
-                        Cursor.HAND_CURSOR
-                )
-        );
-    }
-
-
-    private JPanel crearPanelTabla() {
-
-        JPanel panel =
-                new JPanel(
-                        new BorderLayout(10, 10)
-                );
-
-        panel.setBackground(Color.WHITE);
-
-        panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(
-                                15,
-                                15,
-                                15,
-                                15
-                        )
-                )
-        );
-
-        JLabel lblTitulo =
-                new JLabel(
-                        "Citas registradas"
-                );
-
-        lblTitulo.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        18
-                )
-        );
-
-        lblTitulo.setForeground(
-                new Color(35, 55, 75)
-        );
-
-        modeloTabla =
-                new DefaultTableModel(
-                        new Object[]{
-                            "ID",
-                            "Mascota",
-                            "Veterinario",
-                            "Fecha",
-                            "Hora",
-                            "Motivo",
-                            "Estado"
-                        },
-                        0
-                ) {
-
-                    @Override
-                    public boolean isCellEditable(
-                            int fila,
-                            int columna) {
-
-                        return false;
-                    }
-                };
-
-        tablaCitas =
-                new JTable(modeloTabla);
-
-        tablaCitas.setRowHeight(28);
-
-        tablaCitas.setFont(
-                new Font(
-                        "Arial",
-                        Font.PLAIN,
-                        13
-                )
-        );
-
-        tablaCitas
-                .getTableHeader()
-                .setFont(
-                        new Font(
-                                "Arial",
-                                Font.BOLD,
-                                13
-                        )
-                );
-
-        tablaCitas.setSelectionMode(
-                ListSelectionModel.SINGLE_SELECTION
-        );
-
-        tablaCitas.setAutoCreateRowSorter(true);
-        tablaCitas.setFillsViewportHeight(true);
-
-        JScrollPane scroll =
-                new JScrollPane(tablaCitas);
-
-        scroll.setPreferredSize(
-                new Dimension(900, 250)
-        );
-
-        panel.add(
-                lblTitulo,
-                BorderLayout.NORTH
-        );
-
-        panel.add(
-                scroll,
-                BorderLayout.CENTER
-        );
-
-        return panel;
-    }
-
-    /**
-     * Crea el mensaje de estado inferior.
-     */
+  
     private JPanel crearPanelEstado() {
 
         JPanel panel =
