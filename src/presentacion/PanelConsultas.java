@@ -83,8 +83,8 @@ public class PanelConsultas extends JPanel {
     private List<Consulta> listaConsultas;
     private int idConsultaSeleccionada;
 
-    private static final DateTimeFormatter FORMATO_FECHA =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter FORMATO_FECHA
+            = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public PanelConsultas() {
 
@@ -106,7 +106,7 @@ public class PanelConsultas extends JPanel {
 
         setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        setBackground(new Color(245, 247, 250));
+        setBackground(new Color(248, 245, 238));
 
         add(crearEncabezado(), BorderLayout.NORTH);
         add(crearContenidoCentral(), BorderLayout.CENTER);
@@ -115,41 +115,69 @@ public class PanelConsultas extends JPanel {
 
     private JPanel crearEncabezado() {
 
-        JPanel panel = new JPanel(new BorderLayout());
+        JPanel panel
+                = new JPanel(
+                        new BorderLayout()
+                );
+
         panel.setOpaque(false);
 
-        JLabel lblTitulo =
-                new JLabel("Gestión de Consultas");
+        JLabel lblTitulo
+                = new JLabel(
+                        "Gestión de Consultas"
+                );
 
         lblTitulo.setFont(
-                new Font("Arial", Font.BOLD, 26)
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        27
+                )
         );
 
-        lblTitulo.setForeground(new Color(35, 55, 75));
-
-        JLabel lblDescripcion = new JLabel(
-                "Registre el diagnóstico, tratamiento y "
-                        + "observaciones de cada mascota"
+        lblTitulo.setForeground(
+                new Color(0, 84, 69)
         );
+
+        JLabel lblDescripcion
+                = new JLabel(
+                        "Registre diagnósticos, tratamientos y observaciones médicas."
+                );
 
         lblDescripcion.setFont(
-                new Font("Arial", Font.PLAIN, 14)
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
         );
 
         lblDescripcion.setForeground(
-                new Color(90, 105, 120)
+                new Color(95, 105, 100)
         );
 
-        panel.add(lblTitulo, BorderLayout.NORTH);
-        panel.add(lblDescripcion, BorderLayout.SOUTH);
+        panel.add(
+                lblTitulo,
+                BorderLayout.NORTH
+        );
+
+        panel.add(
+                lblDescripcion,
+                BorderLayout.SOUTH
+        );
 
         return panel;
     }
 
     private JPanel crearContenidoCentral() {
 
-        JPanel panel =
-                new JPanel(new BorderLayout(15, 15));
+        JPanel panel
+                = new JPanel(
+                        new BorderLayout(
+                                18,
+                                18
+                        )
+                );
 
         panel.setOpaque(false);
 
@@ -158,173 +186,407 @@ public class PanelConsultas extends JPanel {
                 BorderLayout.NORTH
         );
 
-        panel.add(crearPanelTabla(), BorderLayout.CENTER);
+        panel.add(
+                crearPanelTabla(),
+                BorderLayout.CENTER
+        );
 
         return panel;
     }
 
     private JPanel crearPanelFormulario() {
 
-        JPanel panel = new JPanel(new GridBagLayout());
+        PanelRedondeado tarjeta
+                = new PanelRedondeado(
+                        28,
+                        Color.WHITE
+                );
 
-        panel.setBackground(Color.WHITE);
+        tarjeta.setMostrarSombra(true);
 
-        panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(15, 15, 15, 15)
+        tarjeta.setLayout(
+                new BorderLayout(
+                        24,
+                        15
                 )
         );
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(6, 6, 6, 6);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        tarjeta.setBorder(
+                new EmptyBorder(
+                        20,
+                        22,
+                        20,
+                        22
+                )
+        );
 
-        /* ID */
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("ID:"), gbc);
+        //--------------------------------------------------
+        // ZONA IZQUIERDA: IMAGEN Y TÍTULO
+        //--------------------------------------------------
+        JPanel zonaImagen
+                = new JPanel(
+                        new BorderLayout(
+                                0,
+                                12
+                        )
+                );
+
+        zonaImagen.setOpaque(false);
+
+        zonaImagen.setPreferredSize(
+                new Dimension(
+                        300,
+                        315
+                )
+        );
+
+        JLabel titulo
+                = new JLabel(
+                        "<html>"
+                        + "<div style='font-size:24px; color:#00695C;'>"
+                        + "<b>Consulta Médica</b>"
+                        + "</div>"
+                        + "<br>"
+                        + "<div style='font-size:12px; color:#666666;'>"
+                        + "Registre el diagnóstico, tratamiento"
+                        + "<br>"
+                        + "y seguimiento de cada mascota."
+                        + "</div>"
+                        + "</html>"
+                );
+
+        PanelImagenURL imagen
+                = new PanelImagenURL(
+                        "https://images.unsplash.com/"
+                        + "photo-1628009368231-7bb7cfcb0def"
+                        + "?auto=format&fit=crop&w=900&q=85"
+                );
+
+        imagen.setPreferredSize(
+                new Dimension(
+                        290,
+                        225
+                )
+        );
+
+        zonaImagen.add(
+                titulo,
+                BorderLayout.NORTH
+        );
+
+        zonaImagen.add(
+                imagen,
+                BorderLayout.CENTER
+        );
+
+        //--------------------------------------------------
+        // ZONA DERECHA: CAMPOS
+        //--------------------------------------------------
+        JPanel panelCampos
+                = new JPanel(
+                        new GridBagLayout()
+                );
+
+        panelCampos.setOpaque(false);
+
+        GridBagConstraints gbc
+                = new GridBagConstraints();
+
+        gbc.insets
+                = new Insets(
+                        7,
+                        8,
+                        7,
+                        8
+                );
+
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        gbc.weightx = 1;
 
         txtId = new JTextField();
         txtId.setEditable(false);
-        txtId.setBackground(new Color(235, 238, 242));
-
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-        panel.add(txtId, gbc);
-
-        /* Mascota */
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Mascota:"), gbc);
 
         cmbMascota = new JComboBox<>();
-
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-        panel.add(cmbMascota, gbc);
-
-        /* Veterinario */
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Veterinario:"), gbc);
-
         cmbVeterinario = new JComboBox<>();
 
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-        panel.add(cmbVeterinario, gbc);
+        txtFecha = new JTextField(
+                LocalDate.now()
+                        .format(FORMATO_FECHA)
+        );
 
-        /* Fecha */
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Fecha (yyyy-MM-dd):"), gbc);
+        txtFecha.setToolTipText(
+                "Formato: yyyy-MM-dd"
+        );
 
-        txtFecha = new JTextField();
+        txtDiagnostico
+                = crearAreaTexto();
 
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-        panel.add(txtFecha, gbc);
+        txtTratamiento
+                = crearAreaTexto();
 
-        /* Diagnóstico */
+        txtObservaciones
+                = crearAreaTexto();
+
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                0,
+                "ID",
+                txtId
+        );
+
+        txtId.setBackground(
+                new Color(238, 241, 240)
+        );
+
+        agregarCampoCombo(
+                panelCampos,
+                gbc,
+                1,
+                "Mascota",
+                cmbMascota
+        );
+
+        agregarCampoCombo(
+                panelCampos,
+                gbc,
+                2,
+                "Veterinario",
+                cmbVeterinario
+        );
+
+        agregarCampoTexto(
+                panelCampos,
+                gbc,
+                3,
+                "Fecha",
+                txtFecha
+        );
+
+        agregarAreaTexto(
+                panelCampos,
+                gbc,
+                4,
+                "Diagnóstico",
+                txtDiagnostico
+        );
+
+        agregarAreaTexto(
+                panelCampos,
+                gbc,
+                5,
+                "Tratamiento",
+                txtTratamiento
+        );
+
+        agregarAreaTexto(
+                panelCampos,
+                gbc,
+                6,
+                "Observaciones",
+                txtObservaciones
+        );
+
         gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Diagnóstico:"), gbc);
-
-        txtDiagnostico = new JTextArea(3, 20);
-        txtDiagnostico.setLineWrap(true);
-        txtDiagnostico.setWrapStyleWord(true);
-
-        gbc.gridx = 1;
-        gbc.gridwidth = 3;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
         gbc.weightx = 1;
-        panel.add(
-                new JScrollPane(txtDiagnostico),
+
+        gbc.insets
+                = new Insets(
+                        15,
+                        5,
+                        5,
+                        5
+                );
+
+        panelCampos.add(
+                crearPanelBotones(),
                 gbc
         );
 
-        /* Tratamiento */
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 1;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Tratamiento:"), gbc);
-
-        txtTratamiento = new JTextArea(3, 20);
-        txtTratamiento.setLineWrap(true);
-        txtTratamiento.setWrapStyleWord(true);
-
-        gbc.gridx = 1;
-        gbc.gridwidth = 3;
-        gbc.weightx = 1;
-        panel.add(
-                new JScrollPane(txtTratamiento),
-                gbc
+        tarjeta.add(
+                zonaImagen,
+                BorderLayout.WEST
         );
 
-        /* Observaciones */
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 1;
-        gbc.weightx = 0;
-        panel.add(crearEtiqueta("Observaciones:"), gbc);
-
-        txtObservaciones = new JTextArea(3, 20);
-        txtObservaciones.setLineWrap(true);
-        txtObservaciones.setWrapStyleWord(true);
-
-        gbc.gridx = 1;
-        gbc.gridwidth = 3;
-        gbc.weightx = 1;
-        panel.add(
-                new JScrollPane(txtObservaciones),
-                gbc
+        tarjeta.add(
+                panelCampos,
+                BorderLayout.CENTER
         );
 
-        /* Botones */
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 4;
-        gbc.weightx = 1;
-        panel.add(crearPanelBotones(), gbc);
+        return tarjeta;
+    }
+
+    private JPanel crearPanelEstado() {
+
+        JPanel panel
+                = new JPanel(
+                        new BorderLayout()
+                );
+
+        panel.setOpaque(false);
+
+        lblEstado
+                = new JLabel(
+                        "Seleccione una opción para comenzar."
+                );
+
+        lblEstado.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        lblEstado.setForeground(
+                new Color(
+                        80,
+                        95,
+                        110
+                )
+        );
+
+        lblEstado.setHorizontalAlignment(
+                SwingConstants.LEFT
+        );
+
+        panel.add(
+                lblEstado,
+                BorderLayout.CENTER
+        );
 
         return panel;
     }
 
-    private JLabel crearEtiqueta(String texto) {
+    private JButton crearBotonColor(
+            String texto,
+            Color color) {
 
-        JLabel etiqueta = new JLabel(texto);
+        JButton boton
+                = new JButton(texto);
 
-        etiqueta.setFont(
-                new Font("Arial", Font.BOLD, 14)
+        boton.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        13
+                )
         );
 
-        etiqueta.setForeground(new Color(50, 65, 80));
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+
+        boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+
+        boton.setCursor(
+                new Cursor(
+                        Cursor.HAND_CURSOR
+                )
+        );
+
+        boton.setBorder(
+                new EmptyBorder(
+                        10,
+                        18,
+                        10,
+                        18
+                )
+        );
+
+        boton.addMouseListener(
+                new java.awt.event.MouseAdapter() {
+
+            @Override
+            public void mouseEntered(
+                    java.awt.event.MouseEvent evento) {
+
+                if (boton.isEnabled()) {
+                    boton.setBackground(
+                            color.brighter()
+                    );
+                }
+            }
+
+            @Override
+            public void mouseExited(
+                    java.awt.event.MouseEvent evento) {
+
+                boton.setBackground(color);
+            }
+        }
+        );
+
+        return boton;
+    }
+
+    private JLabel crearEtiqueta(
+            String texto) {
+
+        JLabel etiqueta
+                = new JLabel(texto);
+
+        etiqueta.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        etiqueta.setForeground(
+                new Color(0, 84, 69)
+        );
 
         return etiqueta;
     }
 
     private JPanel crearPanelBotones() {
 
-        JPanel panel = new JPanel();
+        JPanel panel
+                = new JPanel(
+                        new java.awt.FlowLayout(
+                                java.awt.FlowLayout.LEFT,
+                                12,
+                                0
+                        )
+                );
+
         panel.setOpaque(false);
 
-        btnRegistrar = new JButton("Registrar");
-        btnActualizar = new JButton("Actualizar");
-        btnEliminar = new JButton("Eliminar");
-        btnLimpiar = new JButton("Limpiar");
-        btnRefrescar = new JButton("Refrescar");
+        btnRegistrar
+                = crearBotonColor(
+                        "Registrar",
+                        new Color(34, 165, 95)
+                );
 
-        configurarBoton(btnRegistrar);
-        configurarBoton(btnActualizar);
-        configurarBoton(btnEliminar);
-        configurarBoton(btnLimpiar);
-        configurarBoton(btnRefrescar);
+        btnActualizar
+                = crearBotonColor(
+                        "Actualizar",
+                        new Color(55, 125, 210)
+                );
+
+        btnEliminar
+                = crearBotonColor(
+                        "Eliminar",
+                        new Color(220, 70, 70)
+                );
+
+        btnLimpiar
+                = crearBotonColor(
+                        "Limpiar",
+                        new Color(230, 145, 35)
+                );
+
+        btnRefrescar
+                = crearBotonColor(
+                        "Refrescar",
+                        new Color(0, 121, 107)
+                );
 
         btnActualizar.setEnabled(false);
         btnEliminar.setEnabled(false);
@@ -338,54 +600,65 @@ public class PanelConsultas extends JPanel {
         return panel;
     }
 
-    private void configurarBoton(JButton boton) {
-
-        boton.setFont(new Font("Arial", Font.BOLD, 13));
-        boton.setFocusPainted(false);
-        boton.setPreferredSize(new Dimension(125, 36));
-
-        boton.setCursor(
-                new Cursor(Cursor.HAND_CURSOR)
-        );
-    }
-
     private JPanel crearPanelTabla() {
 
-        JPanel panel =
-                new JPanel(new BorderLayout(10, 10));
+        PanelRedondeado panel
+                = new PanelRedondeado(
+                        26,
+                        Color.WHITE
+                );
 
-        panel.setBackground(Color.WHITE);
+        panel.setMostrarSombra(true);
 
-        panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(15, 15, 15, 15)
+        panel.setLayout(
+                new BorderLayout(
+                        10,
+                        12
                 )
         );
 
-        JLabel lblTituloTabla =
-                new JLabel("Consultas registradas");
+        panel.setBorder(
+                new EmptyBorder(
+                        18,
+                        20,
+                        20,
+                        20
+                )
+        );
+
+        JLabel lblTituloTabla
+                = new JLabel(
+                        "Consultas registradas"
+                );
 
         lblTituloTabla.setFont(
-                new Font("Arial", Font.BOLD, 18)
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        20
+                )
         );
 
         lblTituloTabla.setForeground(
-                new Color(35, 55, 75)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
-        modeloTabla = new DefaultTableModel(
-                new Object[]{
-                    "ID",
-                    "Mascota",
-                    "Veterinario",
-                    "Fecha",
-                    "Diagnóstico"
-                },
-                0
-        ) {
+        modeloTabla
+                = new DefaultTableModel(
+                        new Object[]{
+                            "ID",
+                            "Mascota",
+                            "Veterinario",
+                            "Fecha",
+                            "Diagnóstico"
+                        },
+                        0
+                ) {
+
             @Override
             public boolean isCellEditable(
                     int fila,
@@ -395,18 +668,18 @@ public class PanelConsultas extends JPanel {
             }
         };
 
-        tablaConsultas = new JTable(modeloTabla);
-        tablaConsultas.setRowHeight(28);
+        tablaConsultas
+                = new JTable(modeloTabla);
+
+        tablaConsultas.setRowHeight(36);
 
         tablaConsultas.setFont(
-                new Font("Arial", Font.PLAIN, 13)
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        13
+                )
         );
-
-        tablaConsultas
-                .getTableHeader()
-                .setFont(
-                        new Font("Arial", Font.BOLD, 13)
-                );
 
         tablaConsultas.setSelectionMode(
                 ListSelectionModel.SINGLE_SELECTION
@@ -415,42 +688,113 @@ public class PanelConsultas extends JPanel {
         tablaConsultas.setAutoCreateRowSorter(true);
         tablaConsultas.setFillsViewportHeight(true);
 
+        tablaConsultas.setBackground(Color.WHITE);
+
         tablaConsultas.setGridColor(
-                new Color(225, 228, 232)
+                new Color(
+                        235,
+                        235,
+                        235
+                )
         );
 
-        JScrollPane scrollTabla =
-                new JScrollPane(tablaConsultas);
+        tablaConsultas.setShowVerticalLines(false);
+        tablaConsultas.setShowHorizontalLines(true);
 
-        scrollTabla.setPreferredSize(
-                new Dimension(800, 260)
+        tablaConsultas.setSelectionBackground(
+                new Color(
+                        214,
+                        245,
+                        233
+                )
         );
 
-        panel.add(lblTituloTabla, BorderLayout.NORTH);
-        panel.add(scrollTabla, BorderLayout.CENTER);
-
-        return panel;
-    }
-
-    private JPanel crearPanelEstado() {
-
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setOpaque(false);
-
-        lblEstado = new JLabel(
-                "Seleccione una opción para comenzar."
+        tablaConsultas.setSelectionForeground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
-        lblEstado.setFont(
-                new Font("Arial", Font.PLAIN, 13)
+        tablaConsultas.getTableHeader().setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        13
+                )
         );
 
-        lblEstado.setForeground(new Color(80, 95, 110));
-        lblEstado.setHorizontalAlignment(
-                SwingConstants.LEFT
+        tablaConsultas.getTableHeader().setBackground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
-        panel.add(lblEstado, BorderLayout.CENTER);
+        tablaConsultas.getTableHeader().setForeground(
+                Color.WHITE
+        );
+
+        tablaConsultas.getTableHeader()
+                .setPreferredSize(
+                        new Dimension(
+                                0,
+                                40
+                        )
+                );
+
+        tablaConsultas.getTableHeader()
+                .setReorderingAllowed(false);
+
+        tablaConsultas.getColumnModel()
+                .getColumn(0)
+                .setPreferredWidth(50);
+
+        tablaConsultas.getColumnModel()
+                .getColumn(1)
+                .setPreferredWidth(160);
+
+        tablaConsultas.getColumnModel()
+                .getColumn(2)
+                .setPreferredWidth(200);
+
+        tablaConsultas.getColumnModel()
+                .getColumn(3)
+                .setPreferredWidth(110);
+
+        tablaConsultas.getColumnModel()
+                .getColumn(4)
+                .setPreferredWidth(360);
+
+        JScrollPane scrollTabla
+                = new JScrollPane(
+                        tablaConsultas
+                );
+
+        scrollTabla.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(
+                                220,
+                                225,
+                                222
+                        )
+                )
+        );
+
+        scrollTabla.getViewport()
+                .setBackground(Color.WHITE);
+
+        panel.add(
+                lblTituloTabla,
+                BorderLayout.NORTH
+        );
+
+        panel.add(
+                scrollTabla,
+                BorderLayout.CENTER
+        );
 
         return panel;
     }
@@ -499,8 +843,8 @@ public class PanelConsultas extends JPanel {
 
         try {
 
-            Consulta consulta =
-                    obtenerConsultaFormulario(false);
+            Consulta consulta
+                    = obtenerConsultaFormulario(false);
 
             consultaServicio.registrar(consulta);
 
@@ -528,7 +872,7 @@ public class PanelConsultas extends JPanel {
 
             mostrarAdvertencia(
                     "La fecha debe tener el formato "
-                            + "yyyy-MM-dd."
+                    + "yyyy-MM-dd."
             );
 
         } catch (SQLException ex) {
@@ -546,7 +890,7 @@ public class PanelConsultas extends JPanel {
 
             mostrarAdvertencia(
                     "Debe seleccionar una consulta "
-                            + "de la tabla."
+                    + "de la tabla."
             );
 
             return;
@@ -554,11 +898,11 @@ public class PanelConsultas extends JPanel {
 
         try {
 
-            Consulta consulta =
-                    obtenerConsultaFormulario(true);
+            Consulta consulta
+                    = obtenerConsultaFormulario(true);
 
-            boolean actualizado =
-                    consultaServicio.actualizar(consulta);
+            boolean actualizado
+                    = consultaServicio.actualizar(consulta);
 
             if (actualizado) {
 
@@ -581,7 +925,7 @@ public class PanelConsultas extends JPanel {
 
                 mostrarAdvertencia(
                         "No se encontró la consulta "
-                                + "que se desea actualizar."
+                        + "que se desea actualizar."
                 );
             }
 
@@ -594,7 +938,7 @@ public class PanelConsultas extends JPanel {
 
             mostrarAdvertencia(
                     "La fecha debe tener el formato "
-                            + "yyyy-MM-dd."
+                    + "yyyy-MM-dd."
             );
 
         } catch (SQLException ex) {
@@ -612,7 +956,7 @@ public class PanelConsultas extends JPanel {
 
             mostrarAdvertencia(
                     "Debe seleccionar una consulta "
-                            + "de la tabla."
+                    + "de la tabla."
             );
 
             return;
@@ -621,7 +965,7 @@ public class PanelConsultas extends JPanel {
         int respuesta = JOptionPane.showConfirmDialog(
                 this,
                 "¿Está seguro de eliminar la consulta "
-                        + "seleccionada?",
+                + "seleccionada?",
                 "Confirmar eliminación",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.WARNING_MESSAGE
@@ -658,7 +1002,7 @@ public class PanelConsultas extends JPanel {
 
                 mostrarAdvertencia(
                         "No se encontró la consulta "
-                                + "que se desea eliminar."
+                        + "que se desea eliminar."
                 );
             }
 
@@ -678,12 +1022,11 @@ public class PanelConsultas extends JPanel {
     private Consulta obtenerConsultaFormulario(
             boolean incluirId) {
 
-        Mascota mascota =
-                (Mascota) cmbMascota.getSelectedItem();
+        Mascota mascota
+                = (Mascota) cmbMascota.getSelectedItem();
 
-        Veterinario veterinario =
-                (Veterinario)
-                        cmbVeterinario.getSelectedItem();
+        Veterinario veterinario
+                = (Veterinario) cmbVeterinario.getSelectedItem();
 
         if (mascota == null) {
             throw new IllegalArgumentException(
@@ -702,14 +1045,14 @@ public class PanelConsultas extends JPanel {
                 FORMATO_FECHA
         );
 
-        String diagnostico =
-                txtDiagnostico.getText().trim();
+        String diagnostico
+                = txtDiagnostico.getText().trim();
 
-        String tratamiento =
-                txtTratamiento.getText().trim();
+        String tratamiento
+                = txtTratamiento.getText().trim();
 
-        String observaciones =
-                txtObservaciones.getText().trim();
+        String observaciones
+                = txtObservaciones.getText().trim();
 
         if (incluirId) {
 
@@ -737,6 +1080,183 @@ public class PanelConsultas extends JPanel {
     public final void cargarCombos() {
         cargarMascotas();
         cargarVeterinarios();
+    }
+
+    private JTextArea crearAreaTexto() {
+
+        JTextArea area
+                = new JTextArea(
+                        3,
+                        25
+                );
+
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+
+        area.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        area.setBorder(
+                new EmptyBorder(
+                        8,
+                        10,
+                        8,
+                        10
+                )
+        );
+
+        return area;
+    }
+
+    private void agregarCampoTexto(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JTextField campo) {
+
+        JLabel etiqueta
+                = crearEtiqueta(texto);
+
+        campo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        campo.setPreferredSize(
+                new Dimension(
+                        330,
+                        38
+                )
+        );
+
+        campo.setCaretColor(
+                new Color(0, 84, 69)
+        );
+
+        campo.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(210, 215, 212)
+                        ),
+                        new EmptyBorder(
+                                7,
+                                11,
+                                7,
+                                11
+                        )
+                )
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        panel.add(etiqueta, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(campo, gbc);
+    }
+
+    private void agregarCampoCombo(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JComboBox<?> combo) {
+
+        JLabel etiqueta
+                = crearEtiqueta(texto);
+
+        combo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        combo.setPreferredSize(
+                new Dimension(
+                        330,
+                        38
+                )
+        );
+
+        combo.setBackground(Color.WHITE);
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        panel.add(etiqueta, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panel.add(combo, gbc);
+    }
+
+    private void agregarAreaTexto(
+            JPanel panel,
+            GridBagConstraints gbc,
+            int fila,
+            String texto,
+            JTextArea area) {
+
+        JLabel etiqueta
+                = crearEtiqueta(texto);
+
+        JScrollPane scroll
+                = new JScrollPane(area);
+
+        scroll.setPreferredSize(
+                new Dimension(
+                        330,
+                        70
+                )
+        );
+
+        scroll.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(210, 215, 212)
+                )
+        );
+
+        gbc.gridx = 0;
+        gbc.gridy = fila;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.anchor
+                = GridBagConstraints.NORTH;
+        gbc.fill
+                = GridBagConstraints.HORIZONTAL;
+
+        panel.add(etiqueta, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.fill
+                = GridBagConstraints.BOTH;
+
+        panel.add(scroll, gbc);
     }
 
     private void cargarVeterinarios() {

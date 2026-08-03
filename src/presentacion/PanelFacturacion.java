@@ -7,7 +7,7 @@ package presentacion;
 import Datos.ClienteDAO;
 import Datos.ServicioDAO;
 import Negocio.FacturaServicio;
-
+import javax.swing.ScrollPaneConstants;
 import modelo.Cliente;
 import modelo.DetalleFactura;
 import modelo.Factura;
@@ -138,14 +138,33 @@ public class PanelFacturacion extends JPanel {
         cargarDatosIniciales();
     }
 
-    /*
-     * Inicializa toda la interfaz gráfica.
-     */
     private void inicializarComponentes() {
 
-        setLayout(new BorderLayout(15, 15));
+        setLayout(
+                new BorderLayout()
+        );
 
-        setBorder(
+        setBackground(
+                new Color(248, 245, 238)
+        );
+
+        /*
+     * Contenedor que tendrá todo el contenido
+     * del módulo de facturación.
+         */
+        JPanel contenido
+                = new JPanel(
+                        new BorderLayout(
+                                15,
+                                15
+                        )
+                );
+
+        contenido.setBackground(
+                new Color(248, 245, 238)
+        );
+
+        contenido.setBorder(
                 new EmptyBorder(
                         20,
                         20,
@@ -154,67 +173,104 @@ public class PanelFacturacion extends JPanel {
                 )
         );
 
-        setBackground(
-                new Color(245, 247, 250)
-        );
-
-        add(
+        contenido.add(
                 crearEncabezado(),
                 BorderLayout.NORTH
         );
 
-        add(
+        contenido.add(
                 crearContenidoPrincipal(),
                 BorderLayout.CENTER
         );
 
-        add(
+        contenido.add(
                 crearPanelEstado(),
                 BorderLayout.SOUTH
         );
+
+        /*
+     * Scroll general para poder subir y bajar
+     * cuando el contenido no cabe en pantalla.
+         */
+        JScrollPane scrollGeneral
+                = new JScrollPane(
+                        contenido
+                );
+
+        scrollGeneral.setBorder(
+                BorderFactory.createEmptyBorder()
+        );
+
+        scrollGeneral.getViewport().setBackground(
+                new Color(248, 245, 238)
+        );
+
+        scrollGeneral.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED
+        );
+
+        scrollGeneral.setHorizontalScrollBarPolicy(
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
+        );
+
+        scrollGeneral.getVerticalScrollBar()
+                .setUnitIncrement(18);
+
+        add(
+                scrollGeneral,
+                BorderLayout.CENTER
+        );
     }
 
-    /*
-     * Encabezado superior.
-     */
     private JPanel crearEncabezado() {
 
         JPanel panel
-                = new JPanel(new BorderLayout());
+                = new JPanel(
+                        new BorderLayout()
+                );
 
         panel.setOpaque(false);
 
         JLabel lblTitulo
-                = new JLabel("Módulo de Facturación");
+                = new JLabel(
+                        "Módulo de Facturación"
+                );
 
         lblTitulo.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
-                        26
+                        27
                 )
         );
 
         lblTitulo.setForeground(
-                new Color(35, 55, 75)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
         JLabel lblDescripcion
                 = new JLabel(
-                        "Registre servicios y genere "
-                        + "facturas para los clientes"
+                        "Agregue servicios, calcule los montos y genere facturas para los clientes."
                 );
 
         lblDescripcion.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.PLAIN,
                         14
                 )
         );
 
         lblDescripcion.setForeground(
-                new Color(90, 105, 120)
+                new Color(
+                        95,
+                        105,
+                        100
+                )
         );
 
         panel.add(
@@ -230,9 +286,6 @@ public class PanelFacturacion extends JPanel {
         return panel;
     }
 
-    /*
-     * Contenido principal dividido en dos secciones.
-     */
     private JSplitPane crearContenidoPrincipal() {
 
         JSplitPane divisor
@@ -242,17 +295,23 @@ public class PanelFacturacion extends JPanel {
                         crearPanelFacturasRegistradas()
                 );
 
-        divisor.setResizeWeight(0.62);
-        divisor.setDividerLocation(420);
-        divisor.setBorder(null);
+        divisor.setResizeWeight(0.65);
+
+        divisor.setDividerLocation(550);
+
+        divisor.setDividerSize(8);
+
+        divisor.setBorder(
+                BorderFactory.createEmptyBorder()
+        );
+
         divisor.setOpaque(false);
+
+        divisor.setContinuousLayout(true);
 
         return divisor;
     }
 
-    /*
-     * Panel superior para crear una factura.
-     */
     private JPanel crearPanelFacturaActual() {
 
         JPanel panel
@@ -278,99 +337,127 @@ public class PanelFacturacion extends JPanel {
         return panel;
     }
 
-    /*
-     * Formulario con cliente, servicio,
-     * cantidad y observaciones.
-     */
     private JPanel crearPanelDatosFactura() {
 
-        JPanel panel
-                = new JPanel(new GridBagLayout());
+        PanelRedondeado tarjeta
+                = new PanelRedondeado(
+                        26,
+                        Color.WHITE
+                );
 
-        panel.setBackground(Color.WHITE);
+        tarjeta.setMostrarSombra(true);
 
-        panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        215,
-                                        220,
-                                        225
-                                )
-                        ),
-                        new EmptyBorder(
-                                15,
-                                15,
-                                15,
-                                15
-                        )
+        tarjeta.setLayout(
+                new BorderLayout(
+                        24,
+                        15
                 )
         );
+
+        tarjeta.setBorder(
+                new EmptyBorder(
+                        20,
+                        22,
+                        20,
+                        22
+                )
+        );
+
+        //--------------------------------------------------
+        // ZONA IZQUIERDA: IMAGEN Y TÍTULO
+        //--------------------------------------------------
+        JPanel zonaImagen
+                = new JPanel(
+                        new BorderLayout(
+                                0,
+                                12
+                        )
+                );
+
+        zonaImagen.setOpaque(false);
+
+        zonaImagen.setPreferredSize(
+                new Dimension(
+                        290,
+                        250
+                )
+        );
+
+        JLabel titulo
+                = new JLabel(
+                        "<html>"
+                        + "<div style='font-size:23px; color:#00695C;'>"
+                        + "<b>Nueva Factura</b>"
+                        + "</div>"
+                        + "<br>"
+                        + "<div style='font-size:12px; color:#666666;'>"
+                        + "Seleccione el cliente y agregue"
+                        + "<br>"
+                        + "los servicios correspondientes."
+                        + "</div>"
+                        + "</html>"
+                );
+
+        PanelImagenURL imagen
+                = new PanelImagenURL(
+                        "https://images.unsplash.com/"
+                        + "photo-1556742049-0cfed4f6a45d"
+                        + "?auto=format&fit=crop&w=900&q=85"
+                );
+
+        imagen.setPreferredSize(
+                new Dimension(
+                        280,
+                        180
+                )
+        );
+
+        zonaImagen.add(
+                titulo,
+                BorderLayout.NORTH
+        );
+
+        zonaImagen.add(
+                imagen,
+                BorderLayout.CENTER
+        );
+
+        //--------------------------------------------------
+        // ZONA DERECHA: FORMULARIO
+        //--------------------------------------------------
+        JPanel panelCampos
+                = new JPanel(
+                        new GridBagLayout()
+                );
+
+        panelCampos.setOpaque(false);
 
         GridBagConstraints gbc
                 = new GridBagConstraints();
 
         gbc.insets
-                = new Insets(6, 6, 6, 6);
+                = new Insets(
+                        8,
+                        8,
+                        8,
+                        8
+                );
 
         gbc.fill
                 = GridBagConstraints.HORIZONTAL;
 
-        /*
-         * Cliente.
-         */
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Cliente:"),
-                gbc
-        );
+        gbc.weightx = 1;
 
         cmbClientes = new JComboBox<>();
 
-        cmbClientes.setPreferredSize(
-                new Dimension(280, 32)
-        );
-
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-
-        panel.add(cmbClientes, gbc);
-
-        /*
-         * Servicio.
-         */
-        gbc.gridx = 2;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Servicio:"),
-                gbc
+        configurarCombo(
+                cmbClientes
         );
 
         cmbServicios = new JComboBox<>();
 
-        cmbServicios.setPreferredSize(
-                new Dimension(300, 32)
-        );
-
-        gbc.gridx = 3;
-        gbc.weightx = 1;
-
-        panel.add(cmbServicios, gbc);
-
-        /*
-         * Cantidad.
-         */
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0;
-
-        panel.add(
-                crearEtiqueta("Cantidad:"),
-                gbc
+        configurarCombo(
+                cmbServicios
         );
 
         spnCantidad
@@ -383,188 +470,508 @@ public class PanelFacturacion extends JPanel {
                         )
                 );
 
+        spnCantidad.setPreferredSize(
+                new Dimension(
+                        160,
+                        38
+                )
+        );
+
+        spnCantidad.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        btnAgregarServicio
+                = crearBotonColor(
+                        "Agregar servicio",
+                        new Color(
+                                34,
+                                165,
+                                95
+                        )
+                );
+
+        txtObservaciones
+                = new JTextArea(
+                        3,
+                        30
+                );
+
+        txtObservaciones.setLineWrap(true);
+        txtObservaciones.setWrapStyleWord(true);
+
+        txtObservaciones.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        txtObservaciones.setBorder(
+                new EmptyBorder(
+                        8,
+                        10,
+                        8,
+                        10
+                )
+        );
+
+        //--------------------------------------------------
+        // CLIENTE
+        //--------------------------------------------------
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+
+        panelCampos.add(
+                crearEtiqueta(
+                        "Cliente"
+                ),
+                gbc
+        );
+
         gbc.gridx = 1;
         gbc.weightx = 1;
 
-        panel.add(spnCantidad, gbc);
-
-        /*
-         * Botón agregar.
-         */
-        btnAgregarServicio
-                = new JButton(
-                        "Agregar servicio"
-                );
-
-        configurarBoton(
-                btnAgregarServicio
+        panelCampos.add(
+                cmbClientes,
+                gbc
         );
 
-        gbc.gridx = 2;
-        gbc.gridwidth = 2;
+        //--------------------------------------------------
+        // SERVICIO
+        //--------------------------------------------------
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0;
+
+        panelCampos.add(
+                crearEtiqueta(
+                        "Servicio"
+                ),
+                gbc
+        );
+
+        gbc.gridx = 1;
         gbc.weightx = 1;
 
-        panel.add(
+        panelCampos.add(
+                cmbServicios,
+                gbc
+        );
+
+        //--------------------------------------------------
+        // CANTIDAD
+        //--------------------------------------------------
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 0;
+
+        panelCampos.add(
+                crearEtiqueta(
+                        "Cantidad"
+                ),
+                gbc
+        );
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+
+        panelCampos.add(
+                spnCantidad,
+                gbc
+        );
+
+        //--------------------------------------------------
+        // BOTÓN AGREGAR
+        //--------------------------------------------------
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.weightx = 1;
+        gbc.anchor
+                = GridBagConstraints.WEST;
+
+        panelCampos.add(
                 btnAgregarServicio,
                 gbc
         );
 
-        /*
-         * Observaciones.
-         */
+        //--------------------------------------------------
+        // OBSERVACIONES
+        //--------------------------------------------------
         gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 1;
+        gbc.gridy = 4;
         gbc.weightx = 0;
         gbc.anchor
                 = GridBagConstraints.NORTH;
 
-        panel.add(
-                crearEtiqueta("Observaciones:"),
+        panelCampos.add(
+                crearEtiqueta(
+                        "Observaciones"
+                ),
                 gbc
         );
-
-        txtObservaciones
-                = new JTextArea(3, 30);
-
-        txtObservaciones.setLineWrap(true);
-        txtObservaciones.setWrapStyleWord(true);
 
         JScrollPane scrollObservaciones
                 = new JScrollPane(
                         txtObservaciones
                 );
 
+        scrollObservaciones.setPreferredSize(
+                new Dimension(
+                        330,
+                        80
+                )
+        );
+
+        scrollObservaciones.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(
+                                210,
+                                215,
+                                212
+                        )
+                )
+        );
+
         gbc.gridx = 1;
-        gbc.gridwidth = 3;
         gbc.weightx = 1;
-        gbc.weighty = 1;
         gbc.fill
                 = GridBagConstraints.BOTH;
 
-        panel.add(
+        panelCampos.add(
                 scrollObservaciones,
                 gbc
         );
 
-        return panel;
+        tarjeta.add(
+                zonaImagen,
+                BorderLayout.WEST
+        );
+
+        tarjeta.add(
+                panelCampos,
+                BorderLayout.CENTER
+        );
+
+        return tarjeta;
     }
 
-    /*
-     * Tabla con los servicios agregados
-     * a la factura actual.
-     */
     private JPanel crearPanelDetalleFactura() {
 
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(Color.WHITE);
-        panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(215, 220, 225)
-                        ),
-                        new EmptyBorder(15, 15, 15, 15)
+        PanelRedondeado panel
+                = new PanelRedondeado(
+                        26,
+                        Color.WHITE
+                );
+
+        panel.setMostrarSombra(true);
+
+        panel.setLayout(
+                new BorderLayout(
+                        10,
+                        12
                 )
         );
 
-        JPanel panelTitulo = new JPanel(new BorderLayout());
+        panel.setBorder(
+                new EmptyBorder(
+                        18,
+                        20,
+                        20,
+                        20
+                )
+        );
+
+        //--------------------------------------------------
+        // ENCABEZADO
+        //--------------------------------------------------
+        JPanel panelTitulo
+                = new JPanel(
+                        new BorderLayout()
+                );
+
         panelTitulo.setOpaque(false);
 
-        JLabel lblTitulo = new JLabel("Detalle de la factura");
-        lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
-        lblTitulo.setForeground(new Color(35, 55, 75));
+        JLabel lblTitulo
+                = new JLabel(
+                        "Detalle de la factura"
+                );
 
-        lblNumeroFactura = new JLabel("Factura nueva");
-        lblNumeroFactura.setFont(new Font("Arial", Font.BOLD, 15));
-        lblNumeroFactura.setForeground(new Color(25, 105, 70));
+        lblTitulo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        20
+                )
+        );
 
-        lblCantidadServicios = new JLabel("Servicios agregados: 0");
-        lblCantidadServicios.setFont(new Font("Arial", Font.PLAIN, 13));
-        lblCantidadServicios.setForeground(new Color(80, 95, 110));
+        lblTitulo.setForeground(
+                new Color(
+                        0,
+                        84,
+                        69
+                )
+        );
 
-        JPanel panelInfo = new JPanel(new GridLayout(2, 1));
+        lblNumeroFactura
+                = new JLabel(
+                        "Factura nueva"
+                );
+
+        lblNumeroFactura.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        15
+                )
+        );
+
+        lblNumeroFactura.setForeground(
+                new Color(
+                        25,
+                        105,
+                        70
+                )
+        );
+
+        lblCantidadServicios
+                = new JLabel(
+                        "Servicios agregados: 0"
+                );
+
+        lblCantidadServicios.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        lblCantidadServicios.setForeground(
+                new Color(
+                        80,
+                        95,
+                        110
+                )
+        );
+
+        JPanel panelInfo
+                = new JPanel(
+                        new GridLayout(
+                                2,
+                                1
+                        )
+                );
+
         panelInfo.setOpaque(false);
-        panelInfo.add(lblNumeroFactura);
-        panelInfo.add(lblCantidadServicios);
 
-        panelTitulo.add(lblTitulo, BorderLayout.WEST);
-        panelTitulo.add(panelInfo, BorderLayout.EAST);
+        panelInfo.add(
+                lblNumeroFactura
+        );
 
-        modeloDetalles = new DefaultTableModel(
-                new Object[]{
-                    "ID servicio",
-                    "Servicio",
-                    "Tipo",
-                    "Precio sin IVA",
-                    "Cantidad",
-                    "Subtotal sin IVA"
-                },
-                0
-        ) {
+        panelInfo.add(
+                lblCantidadServicios
+        );
+
+        panelTitulo.add(
+                lblTitulo,
+                BorderLayout.WEST
+        );
+
+        panelTitulo.add(
+                panelInfo,
+                BorderLayout.EAST
+        );
+
+        //--------------------------------------------------
+        // TABLA DE DETALLES
+        //--------------------------------------------------
+        modeloDetalles
+                = new DefaultTableModel(
+                        new Object[]{
+                            "ID servicio",
+                            "Servicio",
+                            "Tipo",
+                            "Precio unitario",
+                            "Cantidad",
+                            "Subtotal"
+                        },
+                        0
+                ) {
+
             @Override
-            public boolean isCellEditable(int fila, int columna) {
+            public boolean isCellEditable(
+                    int fila,
+                    int columna) {
+
                 return false;
             }
         };
 
-        tablaDetalles = new JTable(modeloDetalles);
-        configurarTabla(tablaDetalles);
+        tablaDetalles
+                = new JTable(
+                        modeloDetalles
+                );
 
-        btnModificarCantidad = new JButton("Modificar cantidad");
-        btnEliminarDetalle = new JButton("Eliminar detalle");
-        btnVaciarFactura = new JButton("Vaciar factura");
+        configurarTabla(
+                tablaDetalles
+        );
 
-        configurarBoton(btnModificarCantidad);
-        configurarBoton(btnEliminarDetalle);
-        configurarBoton(btnVaciarFactura);
+        tablaDetalles.getColumnModel()
+                .getColumn(0)
+                .setPreferredWidth(70);
+
+        tablaDetalles.getColumnModel()
+                .getColumn(1)
+                .setPreferredWidth(220);
+
+        tablaDetalles.getColumnModel()
+                .getColumn(2)
+                .setPreferredWidth(150);
+
+        tablaDetalles.getColumnModel()
+                .getColumn(3)
+                .setPreferredWidth(140);
+
+        tablaDetalles.getColumnModel()
+                .getColumn(4)
+                .setPreferredWidth(90);
+
+        tablaDetalles.getColumnModel()
+                .getColumn(5)
+                .setPreferredWidth(150);
+
+        JScrollPane scrollDetalles
+                = new JScrollPane(
+                        tablaDetalles
+                );
+
+        scrollDetalles.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(
+                                220,
+                                225,
+                                222
+                        )
+                )
+        );
+
+        scrollDetalles.getViewport()
+                .setBackground(
+                        Color.WHITE
+                );
+
+        //--------------------------------------------------
+        // BOTONES DEL DETALLE
+        //--------------------------------------------------
+        btnModificarCantidad
+                = crearBotonColor(
+                        "Modificar cantidad",
+                        new Color(
+                                55,
+                                125,
+                                210
+                        )
+                );
+
+        btnEliminarDetalle
+                = crearBotonColor(
+                        "Eliminar detalle",
+                        new Color(
+                                220,
+                                70,
+                                70
+                        )
+                );
+
+        btnVaciarFactura
+                = crearBotonColor(
+                        "Vaciar factura",
+                        new Color(
+                                230,
+                                145,
+                                35
+                        )
+                );
 
         btnModificarCantidad.setEnabled(false);
         btnEliminarDetalle.setEnabled(false);
         btnVaciarFactura.setEnabled(false);
 
-        JPanel panelBotones = new JPanel(
-                new FlowLayout(FlowLayout.RIGHT)
-        );
-        panelBotones.setOpaque(false);
-        panelBotones.add(btnModificarCantidad);
-        panelBotones.add(btnEliminarDetalle);
-        panelBotones.add(btnVaciarFactura);
+        JPanel panelBotones
+                = new JPanel(
+                        new FlowLayout(
+                                FlowLayout.RIGHT,
+                                10,
+                                0
+                        )
+                );
 
-        panel.add(panelTitulo, BorderLayout.NORTH);
-        panel.add(new JScrollPane(tablaDetalles), BorderLayout.CENTER);
-        panel.add(panelBotones, BorderLayout.SOUTH);
+        panelBotones.setOpaque(false);
+
+        panelBotones.add(
+                btnModificarCantidad
+        );
+
+        panelBotones.add(
+                btnEliminarDetalle
+        );
+
+        panelBotones.add(
+                btnVaciarFactura
+        );
+
+        //--------------------------------------------------
+        // ARMADO FINAL
+        //--------------------------------------------------
+        panel.add(
+                panelTitulo,
+                BorderLayout.NORTH
+        );
+
+        panel.add(
+                scrollDetalles,
+                BorderLayout.CENTER
+        );
+
+        panel.add(
+                panelBotones,
+                BorderLayout.SOUTH
+        );
 
         return panel;
     }
 
-    /*
-     * Panel con subtotal, impuesto, total
-     * y botones principales.
-     */
     private JPanel crearPanelTotales() {
 
-        JPanel panel
-                = new JPanel(
-                        new BorderLayout(15, 15)
+        PanelRedondeado panel
+                = new PanelRedondeado(
+                        24,
+                        Color.WHITE
                 );
 
-        panel.setBackground(Color.WHITE);
+        panel.setMostrarSombra(true);
+
+        panel.setLayout(
+                new BorderLayout(
+                        20,
+                        15
+                )
+        );
 
         panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        215,
-                                        220,
-                                        225
-                                )
-                        ),
-                        new EmptyBorder(
-                                12,
-                                15,
-                                12,
-                                15
-                        )
+                new EmptyBorder(
+                        16,
+                        20,
+                        16,
+                        20
                 )
         );
 
@@ -574,89 +981,133 @@ public class PanelFacturacion extends JPanel {
                                 3,
                                 2,
                                 15,
-                                5
+                                8
                         )
                 );
 
         panelMontos.setOpaque(false);
 
         panelMontos.add(
-                crearEtiquetaMonto("Subtotal:")
+                crearEtiquetaMonto(
+                        "Subtotal:"
+                )
         );
 
         lblSubtotal
-                = crearValorMonto("₡0.00");
-
-        panelMontos.add(lblSubtotal);
+                = crearValorMonto(
+                        "₡0.00"
+                );
 
         panelMontos.add(
-                crearEtiquetaMonto("Impuesto:")
+                lblSubtotal
+        );
+
+        panelMontos.add(
+                crearEtiquetaMonto(
+                        "Impuesto:"
+                )
         );
 
         lblImpuesto
-                = crearValorMonto("₡0.00");
+                = crearValorMonto(
+                        "₡0.00"
+                );
 
-        panelMontos.add(lblImpuesto);
+        panelMontos.add(
+                lblImpuesto
+        );
 
         JLabel etiquetaTotal
-                = crearEtiquetaMonto("TOTAL:");
+                = crearEtiquetaMonto(
+                        "TOTAL:"
+                );
 
         etiquetaTotal.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
                         18
                 )
         );
 
-        panelMontos.add(etiquetaTotal);
+        panelMontos.add(
+                etiquetaTotal
+        );
 
         lblTotal
-                = crearValorMonto("₡0.00");
+                = crearValorMonto(
+                        "₡0.00"
+                );
 
         lblTotal.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
-                        20
+                        21
                 )
         );
 
         lblTotal.setForeground(
-                new Color(25, 105, 70)
+                new Color(
+                        0,
+                        105,
+                        82
+                )
         );
 
-        panelMontos.add(lblTotal);
+        panelMontos.add(
+                lblTotal
+        );
 
         JPanel panelBotones
                 = new JPanel(
                         new FlowLayout(
-                                FlowLayout.RIGHT
+                                FlowLayout.RIGHT,
+                                10,
+                                0
                         )
                 );
 
         panelBotones.setOpaque(false);
 
-        btnGuardarFactura
-                = new JButton(
-                        "Guardar factura"
+        btnLimpiar
+                = crearBotonColor(
+                        "Limpiar",
+                        new Color(
+                                230,
+                                145,
+                                35
+                        )
                 );
 
-        btnLimpiar
-                = new JButton("Limpiar");
-
         btnRefrescar
-                = new JButton("Refrescar");
+                = crearBotonColor(
+                        "Refrescar",
+                        new Color(
+                                0,
+                                121,
+                                107
+                        )
+                );
 
-        configurarBoton(
-                btnGuardarFactura
+        btnGuardarFactura
+                = crearBotonColor(
+                        "Guardar factura",
+                        new Color(
+                                34,
+                                165,
+                                95
+                        )
+                );
+
+        panelBotones.add(
+                btnLimpiar
         );
 
-        configurarBoton(btnLimpiar);
-        configurarBoton(btnRefrescar);
+        panelBotones.add(
+                btnRefrescar
+        );
 
-        panelBotones.add(btnLimpiar);
-        panelBotones.add(btnRefrescar);
         panelBotones.add(
                 btnGuardarFactura
         );
@@ -674,33 +1125,29 @@ public class PanelFacturacion extends JPanel {
         return panel;
     }
 
-    /*
-     * Panel inferior con las facturas registradas.
-     */
     private JPanel crearPanelFacturasRegistradas() {
 
-        JPanel panel
-                = new JPanel(
-                        new BorderLayout(10, 10)
+        PanelRedondeado panel
+                = new PanelRedondeado(
+                        26,
+                        Color.WHITE
                 );
 
-        panel.setBackground(Color.WHITE);
+        panel.setMostrarSombra(true);
+
+        panel.setLayout(
+                new BorderLayout(
+                        10,
+                        12
+                )
+        );
 
         panel.setBorder(
-                BorderFactory.createCompoundBorder(
-                        BorderFactory.createLineBorder(
-                                new Color(
-                                        215,
-                                        220,
-                                        225
-                                )
-                        ),
-                        new EmptyBorder(
-                                15,
-                                15,
-                                15,
-                                15
-                        )
+                new EmptyBorder(
+                        18,
+                        20,
+                        20,
+                        20
                 )
         );
 
@@ -711,14 +1158,18 @@ public class PanelFacturacion extends JPanel {
 
         lblTitulo.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
-                        18
+                        20
                 )
         );
 
         lblTitulo.setForeground(
-                new Color(35, 55, 75)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
         modeloFacturas
@@ -745,9 +1196,63 @@ public class PanelFacturacion extends JPanel {
         };
 
         tablaFacturas
-                = new JTable(modeloFacturas);
+                = new JTable(
+                        modeloFacturas
+                );
 
-        configurarTabla(tablaFacturas);
+        configurarTabla(
+                tablaFacturas
+        );
+
+        tablaFacturas.setAutoCreateRowSorter(true);
+
+        tablaFacturas.getColumnModel()
+                .getColumn(0)
+                .setPreferredWidth(55);
+
+        tablaFacturas.getColumnModel()
+                .getColumn(1)
+                .setPreferredWidth(150);
+
+        tablaFacturas.getColumnModel()
+                .getColumn(2)
+                .setPreferredWidth(220);
+
+        tablaFacturas.getColumnModel()
+                .getColumn(3)
+                .setPreferredWidth(130);
+
+        tablaFacturas.getColumnModel()
+                .getColumn(4)
+                .setPreferredWidth(120);
+
+        tablaFacturas.getColumnModel()
+                .getColumn(5)
+                .setPreferredWidth(140);
+
+        tablaFacturas.getColumnModel()
+                .getColumn(6)
+                .setPreferredWidth(120);
+
+        JScrollPane scrollFacturas
+                = new JScrollPane(
+                        tablaFacturas
+                );
+
+        scrollFacturas.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(
+                                220,
+                                225,
+                                222
+                        )
+                )
+        );
+
+        scrollFacturas.getViewport()
+                .setBackground(
+                        Color.WHITE
+                );
 
         panel.add(
                 lblTitulo,
@@ -755,18 +1260,13 @@ public class PanelFacturacion extends JPanel {
         );
 
         panel.add(
-                new JScrollPane(
-                        tablaFacturas
-                ),
+                scrollFacturas,
                 BorderLayout.CENTER
         );
 
         return panel;
     }
-
-    /*
-     * Estado inferior del panel.
-     */
+    
     private JPanel crearPanelEstado() {
 
         JPanel panel
@@ -799,6 +1299,68 @@ public class PanelFacturacion extends JPanel {
         return panel;
     }
 
+    private JButton crearBotonColor(
+            String texto,
+            Color color) {
+
+        JButton boton
+                = new JButton(texto);
+
+        boton.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+
+        boton.setFocusPainted(false);
+        boton.setBorderPainted(false);
+
+        boton.setCursor(
+                new Cursor(
+                        Cursor.HAND_CURSOR
+                )
+        );
+
+        boton.setBorder(
+                new EmptyBorder(
+                        10,
+                        18,
+                        10,
+                        18
+                )
+        );
+
+        boton.addMouseListener(
+                new MouseAdapter() {
+
+            @Override
+            public void mouseEntered(
+                    MouseEvent evento) {
+
+                if (boton.isEnabled()) {
+                    boton.setBackground(
+                            color.brighter()
+                    );
+                }
+            }
+
+            @Override
+            public void mouseExited(
+                    MouseEvent evento) {
+
+                boton.setBackground(color);
+            }
+        }
+        );
+
+        return boton;
+    }
+
     private JLabel crearEtiqueta(
             String texto) {
 
@@ -807,14 +1369,18 @@ public class PanelFacturacion extends JPanel {
 
         etiqueta.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
                         14
                 )
         );
 
         etiqueta.setForeground(
-                new Color(50, 65, 80)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
         return etiqueta;
@@ -831,14 +1397,18 @@ public class PanelFacturacion extends JPanel {
 
         etiqueta.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
                         15
                 )
         );
 
         etiqueta.setForeground(
-                new Color(50, 65, 80)
+                new Color(
+                        0,
+                        84,
+                        69
+                )
         );
 
         return etiqueta;
@@ -855,19 +1425,23 @@ public class PanelFacturacion extends JPanel {
 
         etiqueta.setFont(
                 new Font(
-                        "Arial",
+                        "Segoe UI",
                         Font.BOLD,
                         16
                 )
         );
 
         etiqueta.setForeground(
-                new Color(35, 55, 75)
+                new Color(
+                        45,
+                        65,
+                        60
+                )
         );
 
         return etiqueta;
     }
-
+    
     private void configurarBoton(
             JButton boton) {
 
@@ -920,9 +1494,28 @@ public class PanelFacturacion extends JPanel {
         tabla.setFillsViewportHeight(true);
     }
 
-    /*
-     * Configura los eventos de los componentes.
-     */
+    private void configurarCombo(
+            JComboBox<?> combo) {
+
+        combo.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        combo.setPreferredSize(
+                new Dimension(
+                        330,
+                        38
+                )
+        );
+
+        combo.setBackground(
+                Color.WHITE
+        );
+    }
     private void configurarEventos() {
 
         btnAgregarServicio.addActionListener(
